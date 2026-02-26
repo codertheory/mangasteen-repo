@@ -1,3 +1,10 @@
+/**
+ * @name MangaKatana (Beta)
+ * @version 1.1
+ * @lang en
+ * @iconUrl https://mangakatana.com/favicon.ico
+ */
+
 const BASE_URL = 'https://mangakatana.com';
 
 /**

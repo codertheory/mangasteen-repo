@@ -4,7 +4,9 @@
   "description": "Basic Source Repository for Mangasteen",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local": "node local_runner.js",
+    "build": "esbuild sources/mangaKatana/main.js --bundle --outfile=sources/mangaKatana/release.js --platform=browser --target=es2020 --format=cjs"
   },
   "repository": {
     "type": "git",
@@ -12,13 +14,17 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/codertheory/mangasteen-repo/issues"
   },
   "homepage": "https://github.com/codertheory/mangasteen-repo#readme",
+  "devDependencies": {
+    "esbuild": "^0.27.3"
+  },
   "dependencies": {
-    "axios": "^1.13.5"
+    "axios": "^1.13.5",
+    "cheerio": "^1.2.0"
   }
 }

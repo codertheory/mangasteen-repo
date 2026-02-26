@@ -1,6 +1,6 @@
 /**
  * @name MangaKatana (Beta)
- * @version 1.1
+ * @version 1.2
  * @lang en
  * @iconUrl https://mangakatana.com/favicon.ico
  */
@@ -16,13 +16,17 @@ const BASE_URL = 'https://mangakatana.com';
  */
 
 /**
- * Performs an HTTP GET request. Injected by the Android QuickJs Engine.
- * @type {function(string): Promise<string>}
+ * @typedef {Object} HttpOptions
+ * @property {string} [method] - The HTTP method (GET, POST, etc.). Defaults to GET.
+ * @property {Object.<string, string>} [headers] - Key-value pair of HTTP headers.
+ * @property {Object.<string, string>} [params] - Key-value pair of URL query parameters.
+ * @property {string} [body] - The raw request body string (e.g. JSON.stringify or form-data).
  */
-const httpGet = globalThis.httpGet || async function(url) {
-    console.log("Mocking httpGet for: " + url);
-    return "";
-};
+
+/**
+ * @type {function(string, HttpOptions=): Promise<string>}
+ */
+const httpGet = globalThis.httpGet;
 
 /**
  * Parses HTML and selects elements using Ksoup. Injected by the Android QuickJs Engine.
@@ -37,7 +41,7 @@ const ksoupSelect = globalThis.ksoupSelect || function(html, selector) {
 /**
  * 1. Get Popular Manga (Hot Updates)
  */
-async function getPopularManga() {
+async function getPopularManga(page) {
     try {
         const html = await httpGet(BASE_URL + '/');
         const items = ksoupSelect(html, "#hot_update .item");
@@ -68,12 +72,23 @@ async function getPopularManga() {
 
 /**
  * 2. Get Latest Manga (Latest Updates)
- * Note: Our JsEngine interface doesn't take a page parameter for getLatestManga currently,
- * but you could easily adapt it if you add pagination later.
  */
-async function getLatestManga() {
+async function getLatestManga(page) {
     try {
-        const html = await httpGet(BASE_URL + '/');
+        let url = BASE_URL + '/';
+        // Note: MangaKatana uses path-based pagination (/page/2),
+        // but if the implementation supports it via HttpOptions params, we would use it there.
+        // However, since we must use path param for this specific site:
+        if (page > 1) {
+            url = BASE_URL + '/page/' + page;
+        }
+
+        // Using HttpOptions for demonstration/consistency as requested
+        const options = {
+            method: 'GET'
+        };
+
+        const html = await httpGet(url, options);
         const items = ksoupSelect(html, "#book_list .item");
         const results = [];
 
@@ -108,9 +123,16 @@ async function searchManga(query, page) {
     try {
         // Page defaults to undefined or 1 depending on how QuickJS passes it. Handled dynamically:
         const p = page > 1 ? page : 1;
-        const searchUrl = BASE_URL + '/?search=' + encodeURIComponent(query) + '&search_by=m_name&p=' + p;
 
-        const html = await httpGet(searchUrl);
+        const options = {
+            params: {
+                search: query,
+                search_by: 'm_name',
+                p: p.toString()
+            }
+        };
+
+        const html = await httpGet(BASE_URL + '/', options);
         const items = ksoupSelect(html, "#book_list .item");
         const results = [];
 

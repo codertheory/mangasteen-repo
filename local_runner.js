@@ -4,13 +4,23 @@ const fs = require('fs');
 const path = require('path');
 
 // 1. Mock httpGet
-globalThis.httpGet = async function(url) {
+globalThis.httpGet = async function(url, options) {
     try {
-        console.log("Fetching: " + url);
+        console.log("Fetching: " + url + (options ? " with options: " + JSON.stringify(options) : ""));
         const headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         };
-        const response = await axios.get(url, { headers });
+        // Merge options.headers if present
+        if (options && options.headers) {
+            Object.assign(headers, options.headers);
+        }
+
+        const config = { headers };
+        if (options && options.params) {
+            config.params = options.params;
+        }
+
+        const response = await axios.get(url, config);
         return response.data;
     } catch (error) {
         console.error("Error in httpGet:", error.message);

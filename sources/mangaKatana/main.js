@@ -1,6 +1,6 @@
 /**
  * @name MangaKatana (Beta)
- * @version 1.2
+ * @version 1.3
  * @lang en
  * @iconUrl https://mangakatana.com/favicon.ico
  */
@@ -96,6 +96,13 @@ async function getLatestManga(page) {
             const titleEl = ksoupSelect(item.outerHtml, ".title a")[0];
             const imgEl = ksoupSelect(item.outerHtml, ".wrap_img img")[0];
             const statusEl = ksoupSelect(item.outerHtml, ".status")[0];
+            const descEl = ksoupSelect(item.outerHtml, ".summary")[0];
+            const genreEls = ksoupSelect(item.outerHtml, ".genres a");
+
+            const genres = [];
+            for (const g of genreEls) {
+                genres.push(g.text.trim());
+            }
 
             if (titleEl && imgEl) {
                 results.push({
@@ -103,9 +110,10 @@ async function getLatestManga(page) {
                     url: titleEl.attr["href"],
                     coverUrl: imgEl.attr["src"],
                     status: statusEl ? statusEl.text.trim() : "Unknown",
-                    description: "",
+                    description: descEl ? descEl.text.trim() : "",
                     author: "",
-                    artist: ""
+                    artist: "",
+                    genres: genres.join(", ")
                 });
             }
         }
@@ -140,6 +148,12 @@ async function searchManga(query, page) {
             const titleEl = ksoupSelect(item.outerHtml, ".title a")[0];
             const imgEl = ksoupSelect(item.outerHtml, ".wrap_img img")[0];
             const statusEl = ksoupSelect(item.outerHtml, ".status")[0];
+            const genreEls = ksoupSelect(item.outerHtml, ".genres a");
+
+            const genres = [];
+            for (const g of genreEls) {
+                genres.push(g.text.trim());
+            }
 
             if (titleEl && imgEl) {
                 results.push({
@@ -149,7 +163,8 @@ async function searchManga(query, page) {
                     status: statusEl ? statusEl.text.trim() : "Unknown",
                     description: "",
                     author: "",
-                    artist: ""
+                    artist: "",
+                    genres: genres.join(", ")
                 });
             }
         }
@@ -179,6 +194,12 @@ async function getMangaDetails(url) {
             authorNames = authorEls.map(el => el.text.trim()).join(", ");
         }
 
+        const genreEls = ksoupSelect(html, ".genres a");
+        let genres = [];
+        if (genreEls && genreEls.length > 0) {
+            genres = genreEls.map(el => el.text.trim());
+        }
+
         return {
             title: titleEl ? titleEl.text.trim() : "",
             url: url,
@@ -186,7 +207,8 @@ async function getMangaDetails(url) {
             status: statusEl ? statusEl.text.trim() : "Unknown",
             description: descEl ? descEl.text.trim() : "",
             author: authorNames,
-            artist: authorNames // Falling back to author for artist
+            artist: authorNames, // Falling back to author for artist
+            genres: genres.join(", ")
         };
     } catch (error) {
         console.log("Error getting manga details: " + error);

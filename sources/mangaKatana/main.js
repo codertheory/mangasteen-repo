@@ -1,6 +1,6 @@
 /**
  * @name MangaKatana (Beta)
- * @version 1.5.1
+ * @version 1.5.2
  * @lang en
  * @iconUrl https://mangakatana.com/favicon.ico
  */
@@ -283,7 +283,7 @@ function parseChapters(html) {
             }
 
             chapters.push({
-                name: name,
+                name: linkEl.text.trim(),
                 url: linkEl.attr["href"],
                 number: number,
                 uploadDate: uploadDate

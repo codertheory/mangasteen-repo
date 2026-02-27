@@ -1,6 +1,6 @@
 /**
  * @name MangaKatana (Beta)
- * @version 1.4
+ * @version 1.5
  * @lang en
  * @iconUrl https://mangakatana.com/favicon.ico
  */
@@ -32,7 +32,7 @@ const httpGet = globalThis.httpGet;
  * Parses HTML and selects elements using Ksoup. Injected by the Android QuickJs Engine.
  * @type {function(string, string): KsoupElement[]}
  */
-const ksoupSelect = globalThis.ksoupSelect || function(html, selector) {
+const ksoupSelect = globalThis.ksoupSelect || function (html, selector) {
     console.log("Mocking ksoupSelect for: " + selector);
     return [];
 };
@@ -203,15 +203,20 @@ async function getMangaDetails(url) {
             genres = genreEls.map(el => el.text.trim());
         }
 
+        const chapters = parseChapters(html);
+
         return {
-            title: titleEl ? titleEl.text.trim() : "",
-            url: url,
-            coverUrl: imgEl ? imgEl.attr["src"] : "",
-            status: statusEl ? statusEl.text.trim() : "Unknown",
-            description: descEl ? descEl.text.trim() : "",
-            author: authorNames,
-            artist: authorNames, // Falling back to author for artist
-            genres: genres.join(", ")
+            manga: {
+                title: titleEl ? titleEl.text.trim() : "",
+                url: url,
+                coverUrl: imgEl ? imgEl.attr["src"] : "",
+                status: statusEl ? statusEl.text.trim() : "Unknown",
+                description: descEl ? descEl.text.trim() : "",
+                author: authorNames,
+                artist: authorNames, // Falling back to author for artist
+                genres: genres.join(", ")
+            },
+            chapters: chapters,
         };
     } catch (error) {
         console.log("Error getting manga details: " + error);
@@ -225,25 +230,67 @@ async function getMangaDetails(url) {
 async function getChapterList(url) {
     try {
         const html = await httpGet(url);
-        const rows = ksoupSelect(html, ".chapters table tbody tr");
-        const chapters = [];
-
-        for (const row of rows) {
-            const linkEl = ksoupSelect(row.outerHtml, ".chapter a")[0];
-            if (linkEl) {
-                chapters.push({
-                    name: linkEl.text.trim(),
-                    url: linkEl.attr["href"],
-                    number: -1.0, // Can be parsed later or left as default
-                    uploadDate: 0
-                });
-            }
-        }
-        return chapters;
+        return parseChapters(html);
     } catch (error) {
         console.log("Error getting chapter list: " + error);
         return [];
     }
+}
+
+function parseDate(dateStr) {
+    const months = {
+        "Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "Jun": 5,
+        "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11
+    };
+    const parts = dateStr.split('-');
+    if (parts.length === 3) {
+        const month = months[parts[0]];
+        const day = parseInt(parts[1]);
+        const year = parseInt(parts[2]);
+        if (month !== undefined && !isNaN(day) && !isNaN(year)) {
+            return new Date(year, month, day).getTime();
+        }
+    }
+    return 0;
+}
+
+function parseChapters(html) {
+    const rows = ksoupSelect(html, ".chapters table tbody tr");
+    const chapters = [];
+
+    for (const row of rows) {
+        const linkEl = ksoupSelect(row.outerHtml, ".chapter a")[0];
+        const dateEl = ksoupSelect(row.outerHtml, ".update_time")[0];
+
+        if (linkEl) {
+            let name = linkEl.text.trim();
+            // Try to extract chapter number and title
+            // Typical format: "Chapter 123: Some Title"
+            const regex = /Chapter\s+([0-9.]+)(?:\s*:\s*(.*))?/;
+            const match = name.match(regex);
+            let number = -1.0;
+
+            if (match) {
+                number = parseFloat(match[1]);
+                if (match[2]) {
+                    name = match[2];
+                }
+            }
+
+            let uploadDate = 0;
+            if (dateEl) {
+                uploadDate = parseDate(dateEl.text.trim());
+            }
+
+            chapters.push({
+                name: name,
+                url: linkEl.attr["href"],
+                number: number,
+                uploadDate: uploadDate
+            });
+        }
+    }
+    return chapters;
 }
 
 /**

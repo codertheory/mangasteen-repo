@@ -1,6 +1,6 @@
 /**
  * @name MangaKatana (Beta)
- * @version 1.5
+ * @version 1.5.1
  * @lang en
  * @iconUrl https://mangakatana.com/favicon.ico
  */
@@ -248,7 +248,7 @@ function parseDate(dateStr) {
         const day = parseInt(parts[1]);
         const year = parseInt(parts[2]);
         if (month !== undefined && !isNaN(day) && !isNaN(year)) {
-            return new Date(year, month, day).getTime();
+            return new Date(year, month, day).getTime().toString();
         }
     }
     return 0;

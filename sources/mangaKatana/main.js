@@ -1,6 +1,6 @@
 /**
  * @name MangaKatana (Beta)
- * @version 1.3
+ * @version 1.4
  * @lang en
  * @iconUrl https://mangakatana.com/favicon.ico
  */
@@ -43,6 +43,9 @@ const ksoupSelect = globalThis.ksoupSelect || function(html, selector) {
  */
 async function getPopularManga(page) {
     try {
+        if (page > 1) {
+            return []; // MangaKatana has no pagination for popular manga
+        }
         const html = await httpGet(BASE_URL + '/');
         const items = ksoupSelect(html, "#hot_update .item");
         const results = [];

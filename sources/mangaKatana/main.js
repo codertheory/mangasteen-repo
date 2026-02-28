@@ -1,6 +1,6 @@
 /**
  * @name MangaKatana (Beta)
- * @version 1.5.2
+ * @version 1.5.3
  * @lang en
  * @iconUrl https://mangakatana.com/favicon.ico
  */
@@ -203,6 +203,12 @@ async function getMangaDetails(url) {
             genres = genreEls.map(el => el.text.trim());
         }
 
+        const updateDateEl = ksoupSelect(html, ".value.updateAt")[0];
+        let lastUpdate = ""; // String type for lastUpdate usually
+        if (updateDateEl) {
+            lastUpdate = parseDate(updateDateEl.text.trim());
+        }
+
         const chapters = parseChapters(html);
 
         return {
@@ -214,7 +220,8 @@ async function getMangaDetails(url) {
                 description: descEl ? descEl.text.trim() : "",
                 author: authorNames,
                 artist: authorNames, // Falling back to author for artist
-                genres: genres.join(", ")
+                genres: genres.join(", "),
+                lastUpdate: lastUpdate
             },
             chapters: chapters,
         };

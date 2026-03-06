@@ -1,8 +1,8 @@
 /**
  * @name MangaKatana (Beta)
- * @version 1.5.3
+ * @version 1.6
  * @lang en
- * @iconUrl https://mangakatana.com/favicon.ico
+ * @iconUrl https://mangakatana.com/static/img/fav.png
  */
 
 const BASE_URL = 'https://mangakatana.com';
@@ -24,7 +24,14 @@ const BASE_URL = 'https://mangakatana.com';
  */
 
 /**
- * @type {function(string, HttpOptions=): Promise<string>}
+ * @typedef {Object} HttpResponse
+ * @property {string} body
+ * @property {string} url
+ * @property {number} status
+ */
+
+/**
+ * @type {function(string, HttpOptions=): Promise<HttpResponse>}
  */
 const httpGet = globalThis.httpGet;
 
@@ -46,7 +53,7 @@ async function getPopularManga(page) {
         if (page > 1) {
             return []; // MangaKatana has no pagination for popular manga
         }
-        const html = await httpGet(BASE_URL + '/');
+        const html = (await httpGet(BASE_URL + '/')).body;
         const items = ksoupSelect(html, "#hot_update .item");
         const results = [];
 
@@ -91,7 +98,7 @@ async function getLatestManga(page) {
             method: 'GET'
         };
 
-        const html = await httpGet(url, options);
+        const html = (await httpGet(url, options)).body;
         const items = ksoupSelect(html, "#book_list .item");
         const results = [];
 
@@ -143,7 +150,15 @@ async function searchManga(query, page) {
             }
         };
 
-        const html = await httpGet(BASE_URL + '/', options);
+        const response = await httpGet(BASE_URL + '/', options);
+        const html = response.body;
+
+        // Check if redirected to details page
+        if (ksoupSelect(html, ".info .heading").length > 0 && ksoupSelect(html, "#book_list").length === 0) {
+            const manga = parseMangaDetailsFromHtml(html);
+            return [manga];
+        }
+
         const items = ksoupSelect(html, "#book_list .item");
         const results = [];
 
@@ -183,46 +198,12 @@ async function searchManga(query, page) {
  */
 async function getMangaDetails(url) {
     try {
-        const html = await httpGet(url);
-
-        const titleEl = ksoupSelect(html, ".info .heading")[0];
-        const imgEl = ksoupSelect(html, ".cover img")[0];
-        const statusEl = ksoupSelect(html, ".info .status")[0];
-        const descEl = ksoupSelect(html, ".summary p")[0];
-
-        // Extract authors array and combine into a single string
-        const authorEls = ksoupSelect(html, ".info .author");
-        let authorNames = "";
-        if (authorEls && authorEls.length > 0) {
-            authorNames = authorEls.map(el => el.text.trim()).join(", ");
-        }
-
-        const genreEls = ksoupSelect(html, ".genres a");
-        let genres = [];
-        if (genreEls && genreEls.length > 0) {
-            genres = genreEls.map(el => el.text.trim());
-        }
-
-        const updateDateEl = ksoupSelect(html, ".value.updateAt")[0];
-        let lastUpdate = ""; // String type for lastUpdate usually
-        if (updateDateEl) {
-            lastUpdate = parseDate(updateDateEl.text.trim());
-        }
-
+        const html = (await httpGet(url)).body;
+        const manga = parseMangaDetailsFromHtml(html);
         const chapters = parseChapters(html);
 
         return {
-            manga: {
-                title: titleEl ? titleEl.text.trim() : "",
-                url: url,
-                coverUrl: imgEl ? imgEl.attr["src"] : "",
-                status: statusEl ? statusEl.text.trim() : "Unknown",
-                description: descEl ? descEl.text.trim() : "",
-                author: authorNames,
-                artist: authorNames, // Falling back to author for artist
-                genres: genres.join(", "),
-                lastUpdate: lastUpdate
-            },
+            manga: manga,
             chapters: chapters,
         };
     } catch (error) {
@@ -231,12 +212,53 @@ async function getMangaDetails(url) {
     }
 }
 
+function parseMangaDetailsFromHtml(html) {
+    const ogUrlEl = ksoupSelect(html, "meta[property=og:url]")[0];
+    const url = ogUrlEl ? ogUrlEl.attr["content"] : "";
+
+    const titleEl = ksoupSelect(html, ".info .heading")[0];
+    const imgEl = ksoupSelect(html, ".cover img")[0];
+    const statusEl = ksoupSelect(html, ".info .status")[0];
+    const descEl = ksoupSelect(html, ".summary p")[0];
+
+    // Extract authors array and combine into a single string
+    const authorEls = ksoupSelect(html, ".info .author");
+    let authorNames = "";
+    if (authorEls && authorEls.length > 0) {
+        authorNames = authorEls.map(el => el.text.trim()).join(", ");
+    }
+
+    const genreEls = ksoupSelect(html, ".genres a");
+    let genres = [];
+    if (genreEls && genreEls.length > 0) {
+        genres = genreEls.map(el => el.text.trim());
+    }
+
+    const updateDateEl = ksoupSelect(html, ".value.updateAt")[0];
+    let lastUpdate = "";
+    if (updateDateEl) {
+        lastUpdate = parseDate(updateDateEl.text.trim());
+    }
+
+    return {
+        title: titleEl ? titleEl.text.trim() : "",
+        url: url,
+        coverUrl: imgEl ? imgEl.attr["src"] : "",
+        status: statusEl ? statusEl.text.trim() : "Unknown",
+        description: descEl ? descEl.text.trim() : "",
+        author: authorNames,
+        artist: authorNames, // Falling back to author for artist
+        genres: genres.join(", "),
+        lastUpdate: lastUpdate
+    };
+}
+
 /**
  * 5. Get Chapter List
  */
 async function getChapterList(url) {
     try {
-        const html = await httpGet(url);
+        const html = (await httpGet(url)).body;
         return parseChapters(html);
     } catch (error) {
         console.log("Error getting chapter list: " + error);
@@ -306,7 +328,7 @@ function parseChapters(html) {
  */
 async function getPageList(url) {
     try {
-        const html = await httpGet(url);
+        const html = (await httpGet(url)).body;
         // Regex from Kotlin: thzq\s*=\s*\[(.*?)];
         const regex = /thzq\s*=\s*\[(.*?)\];/;
         const match = html.match(regex);

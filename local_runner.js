@@ -77,59 +77,59 @@ eval(mainJsContent);
 // 4. Run tests
 (async () => {
     try {
-        // console.log("--- Testing getPopularManga ---");
-        // const popular = await getPopularManga();
-        // console.log("Found " + popular.length + " popular manga.");
-        // if (popular.length > 0) {
-        //     console.log("First item:", popular[0]);
-        // }
-        //
-        // console.log("\n--- Testing getLatestManga ---");
-        // const latest = await getLatestManga();
-        // console.log("Found " + latest.length + " latest manga.");
-        // if (latest.length > 0) {
-        //     console.log("First item:", latest[0]);
-        // }
-        //
-        // // Pick one manga to test details and chapters
-        // let mangaUrl = "";
-        // if (popular.length > 0) {
-        //     mangaUrl = popular[0].url;
-        // } else if (latest.length > 0) {
-        //     mangaUrl = latest[0].url;
-        // }
-        //
-        // if (mangaUrl) {
-        //     console.log("\n--- Testing getMangaDetails ---");
-        //     const details = await getMangaDetails("https://mangakatana.com/manga/my-level-up-is-strange-reincarnation-of-a-great-man-in-a-different-world.26845");
-        //     console.log("Details:", details);
-        //
-        //     console.log("\n--- Testing getChapterList ---");
-        //     const chapters = await getChapterList(mangaUrl);
-        //     console.log("Found " + chapters.length + " chapters.");
-        //
-        //     if (chapters.length > 0) {
-        //         console.log("First chapter:", chapters[0]);
-        //
-        //         const chapterUrl = chapters[0].url;
-        //         console.log("\n--- Testing getPageList for chapter: " + chapterUrl + " ---");
-        //
-        //         const pages = await getPageList(chapterUrl);
-        //         if (pages && pages.length > 0) {
-        //              console.log("Found " + pages.length + " pages.");
-        //              console.log("First page:", pages[0]);
-        //         } else {
-        //             console.log("No pages found. This might be due to regex mismatch or website changes.");
-        //         }
-        //     }
-        // }
-        //
-        // console.log("\n--- Testing searchManga ---");
-        // const searchResults = await searchManga("piece", 1);
-        // console.log("Found " + searchResults.length + " search results.");
-        // if (searchResults.length > 0) {
-        //     console.log("First result:", searchResults[0]);
-        // }
+        console.log("--- Testing getPopularManga ---");
+        const popular = await getPopularManga();
+        console.log("Found " + popular.length + " popular manga.");
+        if (popular.length > 0) {
+            console.log("First item:", popular[0]);
+        }
+
+        console.log("\n--- Testing getLatestManga ---");
+        const latest = await getLatestManga();
+        console.log("Found " + latest.length + " latest manga.");
+        if (latest.length > 0) {
+            console.log("First item:", latest[0]);
+        }
+
+        // Pick one manga to test details and chapters
+        let mangaUrl = "";
+        if (popular.length > 0) {
+            mangaUrl = popular[0].url;
+        } else if (latest.length > 0) {
+            mangaUrl = latest[0].url;
+        }
+
+        if (mangaUrl) {
+            console.log("\n--- Testing getMangaDetails ---");
+            const details = await getMangaDetails("https://mangakatana.com/manga/my-level-up-is-strange-reincarnation-of-a-great-man-in-a-different-world.26845");
+            console.log("Details:", details);
+
+            console.log("\n--- Testing getChapterList ---");
+            const chapters = await getChapterList(mangaUrl);
+            console.log("Found " + chapters.length + " chapters.");
+
+            if (chapters.length > 0) {
+                console.log("First chapter:", chapters[0]);
+
+                const chapterUrl = chapters[0].url;
+                console.log("\n--- Testing getPageList for chapter: " + chapterUrl + " ---");
+
+                const pages = await getPageList(chapterUrl);
+                if (pages && pages.length > 0) {
+                     console.log("Found " + pages.length + " pages.");
+                     console.log("First page:", pages[0]);
+                } else {
+                    console.log("No pages found. This might be due to regex mismatch or website changes.");
+                }
+            }
+        }
+
+        console.log("\n--- Testing searchManga ---");
+        const searchResults = await searchManga("piece", 1);
+        console.log("Found " + searchResults.length + " search results.");
+        if (searchResults.length > 0) {
+            console.log("First result:", searchResults[0]);
+        }
 
         console.log("\n--- Testing searchManga (Specific title) ---");
         const specificSearchResults = await searchManga("Birdy the Mighty Evolution", 1);

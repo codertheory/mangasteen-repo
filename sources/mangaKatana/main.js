@@ -1,6 +1,6 @@
 /**
  * @name MangaKatana (Beta)
- * @version 1.6
+ * @version 1.7
  * @lang en
  * @iconUrl https://mangakatana.com/static/img/fav.png
  */
@@ -228,7 +228,7 @@ function parseMangaDetailsFromHtml(html) {
         authorNames = authorEls.map(el => el.text.trim()).join(", ");
     }
 
-    const genreEls = ksoupSelect(html, ".genres a");
+    const genreEls = ksoupSelect(html, ".meta .genres a");
     let genres = [];
     if (genreEls && genreEls.length > 0) {
         genres = genreEls.map(el => el.text.trim());

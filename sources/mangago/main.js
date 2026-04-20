@@ -269,7 +269,10 @@ function parseMangagoDate(dateStr) {
 }
 
 function parseChapters(html) {
-    const rows = ksoupSelect(html, "table#chapter_table > tbody > tr, table.uk-table > tbody > tr");
+    // Stay scoped to the real chapter table — the `.uk-table` fallback that used to
+    // live here matched unrelated UIkit tables on some detail pages, producing ghost
+    // rows with empty last-td text that polluted uploadDate with 0 (1970 epoch).
+    const rows = ksoupSelect(html, "table#chapter_table > tbody > tr");
     const chapters = [];
     for (const row of rows) {
         const linkEl = ksoupSelect(row.outerHtml, "a.chico")[0];

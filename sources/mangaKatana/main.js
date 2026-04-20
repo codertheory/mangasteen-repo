@@ -281,8 +281,12 @@ async function getChapterList(url) {
     }
 }
 
-// Returns Unix epoch milliseconds as a number, or 0 if the input can't be parsed.
-// The host decodes these into a Long — numbers and numeric strings both work, but "" fails.
+// Returns Unix epoch milliseconds as a numeric string on success, or the number 0
+// on failure. String return sidesteps a QuickJS quirk where large Numbers produced
+// by arithmetic on Date.now() (e.g. "Date.now() - N*ms") can be JSON-serialized in
+// scientific notation ("1.776E12"), which kotlinx.serialization rejects for Long.
+// The host contract accepts both number and numeric string, so this is safe; the
+// failure sentinel stays a literal 0 so `!manga.lastUpdate` truthy checks still work.
 function parseDate(dateStr) {
     if (!dateStr) return 0;
     const months = {
@@ -295,7 +299,7 @@ function parseDate(dateStr) {
         const day = parseInt(parts[1]);
         const year = parseInt(parts[2]);
         if (month !== undefined && !isNaN(day) && !isNaN(year)) {
-            return new Date(year, month, day).getTime();
+            return new Date(year, month, day).getTime().toFixed(0);
         }
     }
     // Skipped in fixture mode: captured HTML freezes phrases like "2 days ago" as
@@ -310,8 +314,8 @@ function parseDate(dateStr) {
 // phrasing. Good enough for recency sorting, not for exact timestamps.
 function parseRelativeDate(str) {
     const s = String(str).toLowerCase().trim();
-    if (s === 'just now' || s === 'moments ago') return Date.now();
-    if (s === 'yesterday') return Date.now() - 86400000;
+    if (s === 'just now' || s === 'moments ago') return Date.now().toFixed(0);
+    if (s === 'yesterday') return (Date.now() - 86400000).toFixed(0);
     const m = s.match(/^(\d+|an?)\s+(minute|hour|day|week|month|year)s?\s+ago/);
     if (!m) return 0;
     const n = (m[1] === 'a' || m[1] === 'an') ? 1 : parseInt(m[1], 10);
@@ -323,7 +327,7 @@ function parseRelativeDate(str) {
         month:  2629800000,
         year:   31557600000,
     }[m[2]];
-    return Date.now() - n * unitMs;
+    return (Date.now() - n * unitMs).toFixed(0);
 }
 
 function parseChapters(html) {

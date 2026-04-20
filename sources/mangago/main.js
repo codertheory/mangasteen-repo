@@ -247,9 +247,13 @@ const MONTHS = {
     "jul": 6, "aug": 7, "sep": 8, "oct": 9, "nov": 10, "dec": 11
 };
 
-// Returns Unix epoch milliseconds as a number, or 0 if the input can't be parsed.
-// The host decodes these into a Long — mixing "" with numeric strings breaks decoding,
-// so always return a number.
+// Returns Unix epoch milliseconds as a numeric string on success, or the number 0
+// on failure. String return sidesteps a QuickJS quirk where large Number values get
+// JSON-serialized in scientific notation ("1.776E12"), which kotlinx.serialization
+// rejects for Long fields — manifests as every chapter showing "56 years ago" (1970
+// epoch) in the app. The host contract accepts both numbers and numeric strings; the
+// failure sentinel stays a literal 0 so `if (!record.uploadDate)` truthy checks still
+// work in the rare path that inspects the value client-side.
 function parseMangagoDate(dateStr) {
     if (!dateStr) return 0;
     const m = dateStr.match(/([A-Za-z]{3})\s+(\d{1,2}),?\s+(\d{4})/);
@@ -258,7 +262,7 @@ function parseMangagoDate(dateStr) {
         const day = parseInt(m[2], 10);
         const year = parseInt(m[3], 10);
         if (month !== undefined && !isNaN(day) && !isNaN(year)) {
-            return new Date(year, month, day).getTime();
+            return new Date(year, month, day).getTime().toFixed(0);
         }
     }
     return 0;

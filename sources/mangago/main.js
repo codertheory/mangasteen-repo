@@ -289,19 +289,14 @@ function parseChapters(html) {
         const chapterUrl = absolutize(linkEl.attr["href"] || "");
         const name = linkEl.text.trim();
 
-        const tds = ksoupSelect(row.outerHtml, "td");
+        // Ksoup follows the HTML5 spec strictly: a <tr> parsed as a standalone
+        // fragment is foster-parented (the <tr> + its <td> descendants get dropped)
+        // because they're invalid outside a <table> context. Cheerio is lenient and
+        // keeps them, which is why fixtures passed but device saw tds.length=0.
+        // Wrapping in minimal table scaffolding gives Ksoup what it needs.
+        const wrappedRow = '<table><tbody>' + row.outerHtml + '</tbody></table>';
+        const tds = ksoupSelect(wrappedRow, "td");
         const dateText = tds.length > 0 ? tds[tds.length - 1].text.trim() : "";
-        // Disposable diagnostic — first 2 rows only, to pinpoint where dateText is
-        // losing its value: tds count, per-td text, and a slice of the raw outerHtml
-        // ksoup gave us for the row.
-        if (chapters.length < 2) {
-            console.log("[mgg-debug] row#" + chapters.length + " tds.length=" + tds.length);
-            for (let i = 0; i < tds.length; i++) {
-                console.log("[mgg-debug]   td[" + i + "].text=" + JSON.stringify(tds[i].text));
-            }
-            console.log("[mgg-debug] row.outerHtml.slice(0,500)=" + row.outerHtml.substring(0, 500));
-        }
-        console.log("Parsing chapter: " + name + " with date text: " + dateText);
 
         let number = -1.0;
         const chMatch = name.match(/(?:ch(?:apter)?\.?|#)\s*([0-9]+(?:\.[0-9]+)?)/i);

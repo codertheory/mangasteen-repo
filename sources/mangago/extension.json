@@ -1,8 +1,9 @@
 {
   "name": "Mangago (Beta)",
-  "version": "1.3",
+  "version": "1.4",
   "lang": "en",
   "iconUrl": "https://www.mangago.me/favicon.ico",
+  "icon": "mangago.png",
   "apiVersion": 1,
   "hostAllowlist": [
     "mangago.me",

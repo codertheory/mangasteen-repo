@@ -4,5 +4,6 @@
   { "name": "search-solo-leveling", "function": "searchManga",     "args": ["solo leveling", 1] },
   { "name": "details-cherry",       "function": "getMangaDetails", "args": ["https://www.mangago.me/read-manga/cherry_blossoms_after_winter/"] },
   { "name": "chapters-cherry",      "function": "getChapterList",  "args": ["https://www.mangago.me/read-manga/cherry_blossoms_after_winter/"] },
-  { "name": "pages-cherry-ch156",   "function": "getPageList",     "args": ["https://www.mangago.me/read-manga/cherry_blossoms_after_winter/nbt/br_chapter-363444/pg-1/"] }
+  { "name": "pages-cherry-ch156",   "function": "getPageList",     "args": ["https://www.mangago.me/read-manga/cherry_blossoms_after_winter/nbt/br_chapter-363444/pg-1/"] },
+  { "name": "pages-zone-veterinarian-ch128", "function": "getPageList", "args": ["https://www.mangago.zone/chapter/69032/2233326/"] }
 ]

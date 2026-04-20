@@ -312,17 +312,19 @@ function parseChapters(html) {
 async function getPageList(url) {
     try {
         const response = await httpGet(url, { headers: defaultHeaders() });
-        return await getChapterImageUrls(response.body);
+        return await getChapterImageUrls(response.body, response.url || url);
     } catch (error) {
         console.log("Error getting page list: " + error);
         return [];
     }
 }
 
-async function getChapterImageUrls(html) {
-    const imgsrcsMatch = html.match(/var\s+imgsrcs\s*=\s*['"]([a-zA-Z0-9+=/]+)['"]/);
-    if (!imgsrcsMatch) throw new Error("imgsrcs script not found");
-
+// Fetches chapter.js once, decrypts the first page's imgsrcs, and — if the payload
+// is sparse (the .zone mirror delivers images in chunks; page /1/ fills only slots
+// 0..4 out of total_pages) — walks the paginated URLs built from the `curl` template
+// using the stride derived from next_url, merging each chunk by array index.
+// The .me mirror typically returns all slots on page /1/, so the loop short-circuits.
+async function getChapterImageUrls(html, startUrl) {
     const chapterJsTag = html.match(/<script[^>]+src=["']([^"']*chapter\.js[^"']*)["']/);
     if (!chapterJsTag) throw new Error("chapter.js script tag not found");
     const chapterJsUrl = absolutize(chapterJsTag[1]);
@@ -335,10 +337,53 @@ async function getChapterImageUrls(html) {
 
     // Mangago's `imgsrcs` is zero-padded rather than PKCS7-padded, so we use the host's
     // no-padding decrypt and strip trailing null bytes ourselves.
-    const decrypted = crypto.aesCbcDecrypt(keyHex, ivHex, imgsrcsMatch[1], "none");
-    let imageList = decrypted.replace(/\x00+$/, "");
+    function decryptChunk(chunkHtml) {
+        const m = chunkHtml.match(/var\s+imgsrcs\s*=\s*['"]([a-zA-Z0-9+=/]+)['"]/);
+        if (!m) return [];
+        const decrypted = crypto.aesCbcDecrypt(keyHex, ivHex, m[1], "none");
+        const stripped = decrypted.replace(/\x00+$/, "");
+        const unscrambled = unscrambleImageList(stripped, chapterJs);
+        return unscrambled.split(",").map(u => u.trim());
+    }
 
-    imageList = unscrambleImageList(imageList, chapterJs);
+    const collected = decryptChunk(html);
+    const totalPagesMatch = html.match(/total_pages\s*=\s*(\d+)/);
+    const totalPages = totalPagesMatch ? parseInt(totalPagesMatch[1], 10) : collected.length;
+    const realCount = (arr) => {
+        let n = 0;
+        for (const u of arr) if (u !== "") n++;
+        return n;
+    };
+
+    if (realCount(collected) < totalPages) {
+        // Sparse first page — follow the chunked pagination. Derive stride from
+        // next_url (e.g. current_page=1, next_url=.../6/ → stride 5) and generate
+        // URLs via the `curl` template; following next_url directly is unreliable
+        // because the last partial chunk's next_url jumps to the next chapter.
+        const curlMatch = html.match(/id=["']curl["']\s+value=["']([^"']+)["']/);
+        const nextUrlMatch = html.match(/next_url\s*=\s*["']([^"']+)["']/);
+        const currentPageMatch = html.match(/current_page\s*=\s*(\d+)/);
+        const currentPage = currentPageMatch ? parseInt(currentPageMatch[1], 10) : 1;
+        let stride = 0;
+        if (nextUrlMatch) {
+            const np = nextUrlMatch[1].match(/\/(\d+)\/?$/);
+            if (np) stride = parseInt(np[1], 10) - currentPage;
+        }
+        if (curlMatch && stride > 0) {
+            const template = curlMatch[1];
+            let origin = BASE_URL;
+            try { origin = new URL(startUrl).origin; } catch (_) {}
+            for (let pg = currentPage + stride; pg <= totalPages; pg += stride) {
+                const pageUrl = origin + template.replace("{page}", String(pg));
+                const resp = await httpGet(pageUrl, { headers: defaultHeaders() });
+                const chunk = decryptChunk(resp.body);
+                for (let i = 0; i < chunk.length && i < collected.length; i++) {
+                    if (chunk[i] !== "" && collected[i] === "") collected[i] = chunk[i];
+                }
+                if (realCount(collected) >= totalPages) break;
+            }
+        }
+    }
 
     const colsMatch = chapterJs.match(/var\s*widthnum\s*=\s*heightnum\s*=\s*(\d+);/);
     const cols = colsMatch ? colsMatch[1] : "";
@@ -359,14 +404,16 @@ async function getChapterImageUrls(html) {
         .join("\n")
         .replace(/img\.src/g, "url");
 
-    return imageList.split(",").map(rawUrl => {
-        const u = rawUrl.trim();
+    const results = [];
+    for (const u of collected) {
+        if (u === "") continue;
         if (u.indexOf("cspiclink") >= 0 && imgKeys) {
             const descKey = computeDescKey(imgKeys, u);
-            if (descKey) return u + "#descrambler=mangago&desckey=" + descKey + "&cols=" + cols;
+            if (descKey) { results.push(u + "#descrambler=mangago&desckey=" + descKey + "&cols=" + cols); continue; }
         }
-        return u;
-    });
+        results.push(u);
+    }
+    return results;
 }
 
 function deobfuscateSoJsonV4(jsf) {

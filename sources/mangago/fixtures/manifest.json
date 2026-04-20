@@ -28,5 +28,11 @@
     "url": "https://pic1.mangapicgallery.com/js/chapter.js?895",
     "method": "GET",
     "response": "chapter_cherry_156.js"
-  }
+  },
+  { "url": "https://www.mangago.zone/chapter/77774/1943786/", "method": "GET", "response": "chapter_zone_77774.html" },
+    { "url": "https://www.mangago.zone/chapter/69032/2233326/",     "method": "GET", "response": "chapter_zone_2233326_p1.html" },
+  { "url": "https://www.mangago.zone/chapter/69032/2233326/6/",   "method": "GET", "response": "chapter_zone_2233326_p6.html" },
+  { "url": "https://www.mangago.zone/chapter/69032/2233326/11/",  "method": "GET", "response": "chapter_zone_2233326_p11.html" },
+  { "url": "https://www.mangago.zone/chapter/69032/2233326/16/",  "method": "GET", "response": "chapter_zone_2233326_p16.html" },
+  { "url": "https://www.mangago.zone/chapter/69032/2233326/21/",  "method": "GET", "response": "chapter_zone_2233326_p21.html" }
 ]

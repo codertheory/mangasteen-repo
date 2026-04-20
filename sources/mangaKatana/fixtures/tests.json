@@ -1,0 +1,9 @@
+[
+  { "name": "popular-page1", "function": "getPopularManga", "args": [1] },
+  { "name": "latest-page1",  "function": "getLatestManga",  "args": [1] },
+  { "name": "search-piece",  "function": "searchManga",     "args": ["piece", 1] },
+  { "name": "search-birdy",  "function": "searchManga",     "args": ["Birdy the Mighty Evolution", 1] },
+  { "name": "details-birdy",     "function": "getMangaDetails", "args": ["https://mangakatana.com/manga/birdy-the-mighty-evolution.24396"] },
+  { "name": "chapters-birdy",    "function": "getChapterList",  "args": ["https://mangakatana.com/manga/birdy-the-mighty-evolution.24396"] },
+  { "name": "pages-birdy-ch1",   "function": "getPageList",     "args": ["https://mangakatana.com/manga/birdy-the-mighty-evolution.24396/c1"] }
+]

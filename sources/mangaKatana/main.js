@@ -1,6 +1,6 @@
 /**
  * @name MangaKatana (Beta)
- * @version 1.7
+ * @version 1.8
  * @lang en
  * @iconUrl https://mangakatana.com/static/img/fav.png
  */
@@ -108,6 +108,7 @@ async function getLatestManga(page) {
             const statusEl = ksoupSelect(item.outerHtml, ".status")[0];
             const descEl = ksoupSelect(item.outerHtml, ".summary")[0];
             const genreEls = ksoupSelect(item.outerHtml, ".genres a");
+            const dateEl = ksoupSelect(item.outerHtml, ".date")[0];
 
             const genres = [];
             for (const g of genreEls) {
@@ -123,7 +124,8 @@ async function getLatestManga(page) {
                     description: descEl ? descEl.text.trim() : "",
                     author: "",
                     artist: "",
-                    genres: genres.join(", ")
+                    genres: genres,
+                    lastUpdate: dateEl ? parseDate(dateEl.text.trim()) : 0,
                 });
             }
         }
@@ -156,6 +158,12 @@ async function searchManga(query, page) {
         // Check if redirected to details page
         if (ksoupSelect(html, ".info .heading").length > 0 && ksoupSelect(html, "#book_list").length === 0) {
             const manga = parseMangaDetailsFromHtml(html);
+            // Details page shows a relative updateAt ("2 days ago") that parseDate can't
+            // decode; use the latest chapter's absolute date as a reliable proxy.
+            if (!manga.lastUpdate) {
+                const chapters = parseChapters(html);
+                if (chapters.length > 0) manga.lastUpdate = chapters[0].uploadDate || 0;
+            }
             return [manga];
         }
 
@@ -167,6 +175,9 @@ async function searchManga(query, page) {
             const imgEl = ksoupSelect(item.outerHtml, ".wrap_img img")[0];
             const statusEl = ksoupSelect(item.outerHtml, ".status")[0];
             const genreEls = ksoupSelect(item.outerHtml, ".genres a");
+            // First .date inside an item is the clock-icon absolute timestamp
+            // ("Feb-25-2018"); a second .date elsewhere holds the "First Chapter" link.
+            const dateEl = ksoupSelect(item.outerHtml, ".date")[0];
 
             const genres = [];
             for (const g of genreEls) {
@@ -182,7 +193,8 @@ async function searchManga(query, page) {
                     description: "",
                     author: "",
                     artist: "",
-                    genres: genres.join(", ")
+                    genres: genres,
+                    lastUpdate: dateEl ? parseDate(dateEl.text.trim()) : 0,
                 });
             }
         }
@@ -201,6 +213,12 @@ async function getMangaDetails(url) {
         const html = (await httpGet(url)).body;
         const manga = parseMangaDetailsFromHtml(html);
         const chapters = parseChapters(html);
+
+        // Details-page updateAt is a relative string ("2 days ago") parseDate can't
+        // read; the first chapter's absolute date is the best available fallback.
+        if (!manga.lastUpdate && chapters.length > 0) {
+            manga.lastUpdate = chapters[0].uploadDate || 0;
+        }
 
         return {
             manga: manga,
@@ -235,10 +253,7 @@ function parseMangaDetailsFromHtml(html) {
     }
 
     const updateDateEl = ksoupSelect(html, ".value.updateAt")[0];
-    let lastUpdate = "";
-    if (updateDateEl) {
-        lastUpdate = parseDate(updateDateEl.text.trim());
-    }
+    const lastUpdate = updateDateEl ? parseDate(updateDateEl.text.trim()) : 0;
 
     return {
         title: titleEl ? titleEl.text.trim() : "",
@@ -248,7 +263,7 @@ function parseMangaDetailsFromHtml(html) {
         description: descEl ? descEl.text.trim() : "",
         author: authorNames,
         artist: authorNames, // Falling back to author for artist
-        genres: genres.join(", "),
+        genres: genres,
         lastUpdate: lastUpdate
     };
 }
@@ -266,7 +281,10 @@ async function getChapterList(url) {
     }
 }
 
+// Returns Unix epoch milliseconds as a number, or 0 if the input can't be parsed.
+// The host decodes these into a Long — numbers and numeric strings both work, but "" fails.
 function parseDate(dateStr) {
+    if (!dateStr) return 0;
     const months = {
         "Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "Jun": 5,
         "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11
@@ -277,10 +295,35 @@ function parseDate(dateStr) {
         const day = parseInt(parts[1]);
         const year = parseInt(parts[2]);
         if (month !== undefined && !isNaN(day) && !isNaN(year)) {
-            return new Date(year, month, day).getTime().toString();
+            return new Date(year, month, day).getTime();
         }
     }
+    // Skipped in fixture mode: captured HTML freezes phrases like "2 days ago" as
+    // literal text, but Date.now() keeps advancing, so the computed timestamp would
+    // drift forward every test run.
+    if (!globalThis.OFFLINE) return parseRelativeDate(dateStr);
     return 0;
+}
+
+// Month/year in ms use calendar averages (30.44 days / 365.25 days) — accuracy is
+// roughly "unit granularity" since the site has already rounded when it chose the
+// phrasing. Good enough for recency sorting, not for exact timestamps.
+function parseRelativeDate(str) {
+    const s = String(str).toLowerCase().trim();
+    if (s === 'just now' || s === 'moments ago') return Date.now();
+    if (s === 'yesterday') return Date.now() - 86400000;
+    const m = s.match(/^(\d+|an?)\s+(minute|hour|day|week|month|year)s?\s+ago/);
+    if (!m) return 0;
+    const n = (m[1] === 'a' || m[1] === 'an') ? 1 : parseInt(m[1], 10);
+    const unitMs = {
+        minute: 60000,
+        hour:   3600000,
+        day:    86400000,
+        week:   604800000,
+        month:  2629800000,
+        year:   31557600000,
+    }[m[2]];
+    return Date.now() - n * unitMs;
 }
 
 function parseChapters(html) {

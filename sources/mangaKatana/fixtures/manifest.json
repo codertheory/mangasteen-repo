@@ -1,0 +1,7 @@
+[
+    { "url": "https://mangakatana.com/", "method": "GET", "response": "homepage.html" },
+    { "url": "https://mangakatana.com/?search=piece&search_by=m_name&p=1", "method": "GET", "response": "search_piece.html" },
+    { "url": "https://mangakatana.com/?search=Birdy+the+Mighty+Evolution&search_by=m_name&p=1", "method": "GET", "response": "search_birdy.html" },
+    { "url": "https://mangakatana.com/manga/birdy-the-mighty-evolution.24396", "method": "GET", "response": "details_birdy.html" },
+    { "url": "https://mangakatana.com/manga/birdy-the-mighty-evolution.24396/c1", "method": "GET", "response": "pages_birdy_ch1.html" }
+  ]

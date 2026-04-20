@@ -138,3 +138,13 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .idea
+
+# Signing key material — the PRIVATE key must never be committed. The default location
+# is outside this repo (~/.mangasteen-signing-key.pem); these patterns are a defensive
+# net in case someone accidentally drops a key file inside the repo.
+*.pem
+!publickey.pem
+*signing-key*
+*.key
+id_ed25519*
+/CLAUDE.md

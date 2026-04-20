@@ -1,0 +1,8 @@
+[
+  { "name": "popular-page1",        "function": "getPopularManga", "args": [1] },
+  { "name": "latest-page1",         "function": "getLatestManga",  "args": [1] },
+  { "name": "search-solo-leveling", "function": "searchManga",     "args": ["solo leveling", 1] },
+  { "name": "details-cherry",       "function": "getMangaDetails", "args": ["https://www.mangago.me/read-manga/cherry_blossoms_after_winter/"] },
+  { "name": "chapters-cherry",      "function": "getChapterList",  "args": ["https://www.mangago.me/read-manga/cherry_blossoms_after_winter/"] },
+  { "name": "pages-cherry-ch156",   "function": "getPageList",     "args": ["https://www.mangago.me/read-manga/cherry_blossoms_after_winter/nbt/br_chapter-363444/pg-1/"] }
+]

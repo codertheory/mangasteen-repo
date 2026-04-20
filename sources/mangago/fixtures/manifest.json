@@ -1,0 +1,32 @@
+[
+  {
+    "url": "https://www.mangago.me/genre/all/1/?f=1&o=1&sortby=view&e=",
+    "method": "GET",
+    "response": "popular_page1.html"
+  },
+  {
+    "url": "https://www.mangago.me/genre/all/1/?f=1&o=1&sortby=update_date&e=",
+    "method": "GET",
+    "response": "latest_page1.html"
+  },
+  {
+    "url": "https://www.mangago.me/r/l_search/",
+    "method": "GET",
+    "response": "search_solo_leveling.html"
+  },
+  {
+    "url": "https://www.mangago.me/read-manga/cherry_blossoms_after_winter/",
+    "method": "GET",
+    "response": "details_cherry_blossoms.html"
+  },
+  {
+    "url": "https://www.mangago.me/read-manga/cherry_blossoms_after_winter/nbt/br_chapter-363444/pg-1/",
+    "method": "GET",
+    "response": "chapter_cherry_156.html"
+  },
+  {
+    "url": "https://pic1.mangapicgallery.com/js/chapter.js?895",
+    "method": "GET",
+    "response": "chapter_cherry_156.js"
+  }
+]

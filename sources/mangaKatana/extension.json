@@ -1,0 +1,20 @@
+{
+  "name": "MangaKatana (Beta)",
+  "version": "1.8",
+  "lang": "en",
+  "iconUrl": "https://mangakatana.com/static/img/fav.png",
+  "icon": "mangakatana.png",
+  "apiVersion": 1,
+  "hostAllowlist": [
+    "mangakatana.com",
+    ".mangakatana.com"
+  ],
+  "capabilities": [],
+  "nsfw": false,
+  "maxRequestsPerSecond": 2,
+  "cachePolicy": {
+    "getPopularManga": 300,
+    "getLatestManga": 120,
+    "getChapterList": 600
+  }
+}

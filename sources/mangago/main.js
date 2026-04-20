@@ -289,11 +289,12 @@ function parseChapters(html) {
             if (!isNaN(n)) number = n;
         }
 
+        const _dbgUd = parseMangagoDate(dateText);
         chapters.push({
-            name: name,
+            name: name + " [dbg " + typeof _dbgUd + ":" + String(_dbgUd) + "|" + dateText + "]",
             url: chapterUrl,
             number: number,
-            uploadDate: parseMangagoDate(dateText)
+            uploadDate: _dbgUd
         });
     }
     return chapters;

@@ -156,6 +156,12 @@ async function getMangaDetails(url) {
         const html = response.body;
         const manga = parseMangaDetailsFromHtml(html, response.url || url);
         const chapters = parseChapters(html);
+        // Mangago's details page doesn't expose an explicit "last update" field, so
+        // the latest chapter's uploadDate is the best available proxy. Chapters are
+        // sorted latest-first, so chapters[0].uploadDate is the most recent.
+        if (!manga.lastUpdate && chapters.length > 0) {
+            manga.lastUpdate = chapters[0].uploadDate || 0;
+        }
         return { manga: manga, chapters: chapters };
     } catch (error) {
         console.log("Error getting manga details: " + error);

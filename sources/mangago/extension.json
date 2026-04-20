@@ -1,6 +1,6 @@
 {
   "name": "Mangago (Beta)",
-  "version": "1.10",
+  "version": "1.11",
   "lang": "en",
   "iconUrl": "https://www.mangago.me/favicon.ico",
   "icon": "mangago.png",
@@ -23,7 +23,7 @@
     "cookies",
     "descrambler"
   ],
-  "nsfw": false,
+  "nsfw": true,
   "maxRequestsPerSecond": 2,
   "cachePolicy": {
     "getPopularManga": 300,

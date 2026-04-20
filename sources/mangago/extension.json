@@ -1,6 +1,6 @@
 {
   "name": "Mangago (Beta)",
-  "version": "1.7",
+  "version": "1.8",
   "lang": "en",
   "iconUrl": "https://www.mangago.me/favicon.ico",
   "icon": "mangago.png",
@@ -10,6 +10,8 @@
     ".mangago.me",
     "mangago.zone",
     ".mangago.zone",
+    "youhim.me",
+    ".youhim.me",
     "mangapicgallery.com",
     ".mangapicgallery.com",
     "cspiclink.com",

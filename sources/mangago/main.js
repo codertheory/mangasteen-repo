@@ -261,9 +261,11 @@ const MONTHS = {
 // failure sentinel stays a literal 0 so `if (!record.uploadDate)` truthy checks still
 // work in the rare path that inspects the value client-side.
 function parseMangagoDate(dateStr) {
+    console.log("parseMangagoDate", dateStr);
     if (!dateStr) return 0;
     const m = dateStr.match(/([A-Za-z]{3})\s+(\d{1,2}),?\s+(\d{4})/);
     if (m) {
+        console.log("Found date", m)
         const month = MONTHS[m[1].toLowerCase()];
         const day = parseInt(m[2], 10);
         const year = parseInt(m[3], 10);
@@ -271,6 +273,7 @@ function parseMangagoDate(dateStr) {
             return new Date(year, month, day).getTime().toFixed(0);
         }
     }
+    console.log("Did not found date in expected format");
     return 0;
 }
 
@@ -288,6 +291,7 @@ function parseChapters(html) {
 
         const tds = ksoupSelect(row.outerHtml, "td");
         const dateText = tds.length > 0 ? tds[tds.length - 1].text.trim() : "";
+        console.log("Parsing chapter: " + name + " with date text: " + dateText);
 
         let number = -1.0;
         const chMatch = name.match(/(?:ch(?:apter)?\.?|#)\s*([0-9]+(?:\.[0-9]+)?)/i);

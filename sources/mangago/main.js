@@ -49,8 +49,14 @@ const ksoupSelect = globalThis.ksoupSelect || function (html, selector) {
 // Any Set-Cookie from responses still persists to the jar, but jar cookies are only
 // merged in on requests that don't set the header themselves — so requests made via
 // `defaultHeaders()` will always carry exactly this cookie and nothing else.
+//
+// User-Agent is set explicitly because mangago serves a stripped HTML variant to
+// non-browser clients (no date column in #chapter_table, which made every chapter
+// show "56 years ago" in production). Our fixtures were captured from a real
+// browser, so pinning this UA keeps local behavior and device behavior aligned.
 function defaultHeaders() {
     return {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
         'Referer': BASE_URL + '/',
         'Cookie': '_m_superu=1'
     };
@@ -292,12 +298,11 @@ function parseChapters(html) {
             if (!isNaN(n)) number = n;
         }
 
-        const _dbgUd = parseMangagoDate(dateText);
         chapters.push({
-            name: name + " [dbg " + typeof _dbgUd + ":" + String(_dbgUd) + "|" + dateText + "]",
+            name: name,
             url: chapterUrl,
             number: number,
-            uploadDate: _dbgUd
+            uploadDate: parseMangagoDate(dateText)
         });
     }
     return chapters;

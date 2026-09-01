@@ -1,0 +1,8 @@
+[
+  { "url": "https://weebcentral.com/search/data?sort=Popularity&order=Descending&official=Any&display_mode=Full+Display&limit=32&offset=0", "method": "GET", "response": "popular_p1.html" },
+  { "url": "https://weebcentral.com/latest-updates/1", "method": "GET", "response": "latest_p1.html" },
+  { "url": "https://weebcentral.com/search/data?sort=Best+Match&order=Descending&official=Any&display_mode=Full+Display&limit=32&offset=0&text=naruto", "method": "GET", "response": "search_naruto.html" },
+  { "url": "https://weebcentral.com/series/01J76XYC7KP5M48JAY8S4ZNDX5/Kanojo-Okarishimasu", "method": "GET", "response": "details_kanojo.html" },
+  { "url": "https://weebcentral.com/series/01J76XYC7KP5M48JAY8S4ZNDX5/full-chapter-list", "method": "GET", "response": "chapters_kanojo.html" },
+  { "url": "https://weebcentral.com/chapters/01M1ERMZPBHYY7FJW3MX7RMNKM/images?is_prev=False&reading_style=long_strip", "method": "GET", "response": "pages_kanojo_ch438.html" }
+]

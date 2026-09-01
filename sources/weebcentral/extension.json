@@ -1,0 +1,23 @@
+{
+  "name": "Weeb Central (Beta)",
+  "version": "1.0",
+  "lang": "en",
+  "iconUrl": "https://weebcentral.com/favicon.ico",
+  "apiVersion": 1,
+  "hostAllowlist": [
+    "weebcentral.com",
+    ".weebcentral.com",
+    "compsci88.com",
+    ".compsci88.com",
+    "planeptune.us",
+    ".planeptune.us"
+  ],
+  "capabilities": [],
+  "nsfw": false,
+  "maxRequestsPerSecond": 2,
+  "cachePolicy": {
+    "getPopularManga": 300,
+    "getLatestManga": 120,
+    "getChapterList": 600
+  }
+}

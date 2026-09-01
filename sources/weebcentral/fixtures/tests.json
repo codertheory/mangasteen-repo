@@ -1,0 +1,8 @@
+[
+  { "name": "popular_page1", "function": "getPopularManga", "args": [1] },
+  { "name": "latest_page1", "function": "getLatestManga", "args": [1] },
+  { "name": "search_naruto", "function": "searchManga", "args": ["naruto", 1] },
+  { "name": "details_kanojo", "function": "getMangaDetails", "args": ["https://weebcentral.com/series/01J76XYC7KP5M48JAY8S4ZNDX5/Kanojo-Okarishimasu"] },
+  { "name": "chapters_kanojo", "function": "getChapterList", "args": ["https://weebcentral.com/series/01J76XYC7KP5M48JAY8S4ZNDX5/Kanojo-Okarishimasu"] },
+  { "name": "pages_kanojo", "function": "getPageList", "args": ["https://weebcentral.com/chapters/01M1ERMZPBHYY7FJW3MX7RMNKM"] }
+]

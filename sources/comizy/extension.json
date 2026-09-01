@@ -1,0 +1,21 @@
+{
+  "name": "Comizy (Beta)",
+  "version": "1.0",
+  "lang": "en",
+  "iconUrl": "https://comizy.io/static/sites/comizy/icons/favicon-32x32.png",
+  "apiVersion": 1,
+  "hostAllowlist": [
+    "comizy.io",
+    ".comizy.io",
+    "cmzcdn.org",
+    ".cmzcdn.org"
+  ],
+  "capabilities": [],
+  "nsfw": true,
+  "maxRequestsPerSecond": 3,
+  "cachePolicy": {
+    "getPopularManga": 300,
+    "getLatestManga": 120,
+    "getChapterList": 600
+  }
+}

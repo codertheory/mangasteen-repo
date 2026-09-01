@@ -216,8 +216,12 @@ async function fetchChapters(mangaId) {
  * 6. Get Page List
  * The reader page embeds the ordered image list in its Next.js data blob, so a single
  * fetch of the chapter URL yields the pages with no id resolution. Images are full-page
- * WebP (not scrambled); they are hotlink-protected and need a comizy.io Referer when loaded.
+ * WebP (not scrambled) but hotlink-protected: the CDN 403s unless the request carries a
+ * `Referer: https://comizy.io/`. QuickJS can't set headers on the host image loader, so we
+ * tag each URL with a `#referer=<url-encoded>` fragment that the host applies (mirrors the
+ * `#descrambler=` convention). Requires host support for the referer fragment.
  */
+const REFERER_FRAGMENT = '#referer=' + encodeURIComponent(BASE_URL + '/');
 async function getPageList(url) {
     try {
         const html = (await httpGet(url, { headers: defaultHeaders() })).body;
@@ -227,7 +231,7 @@ async function getPageList(url) {
         const pages = data && data.props && data.props.pageProps &&
             data.props.pageProps.initialChapter && data.props.pageProps.initialChapter.pages;
         if (!Array.isArray(pages)) return [];
-        return pages.map(p => p.url).filter(Boolean);
+        return pages.map(p => p.url).filter(Boolean).map(u => u + REFERER_FRAGMENT);
     } catch (error) {
         console.log("Error getting page list: " + error);
         return [];

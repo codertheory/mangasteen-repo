@@ -8,6 +8,8 @@ A source extension repository for **[Mangasteen](https://github.com/codertheory/
 |---|---|---|---|
 | **MangaKatana** | EN | No | Full catalog, search, reader |
 | **Mangago** | EN | No | Full catalog, search, reader — uses client-side image descrambling |
+| **Comizy** | EN | Yes | Full catalog, search, reader — JSON API; hotlink-protected page images need app **3.2.3+**. Formerly MangaBuddy |
+| **Weeb Central** | EN | No | Full catalog, search, reader |
 
 All sources are Ed25519-signed against [`publickey.pem`](./publickey.pem) at the repo root; the app verifies each source on every sync and rejects any `main.js` that's been tampered with.
 
@@ -63,7 +65,7 @@ sources/<source>/fixtures/
   manifest.json          # [{ url, method, response }] — URL-to-file mapping
   tests.json             # [{ name, function, args }] — entries the suite runs
   expected/<name>.json   # (optional) golden output, deep-compared on match
-  *.html                 # captured responses
+  *.html / *.json        # captured responses (HTML pages or JSON API bodies)
 ```
 
 Each `tests.json` entry dispatches `globalThis[function](...args)` and prints a summary. If `expected/<name>.json` exists the result is diffed against it — a mismatch prints `golden: DIFF` and fails the run. Missing golden files are skipped silently.
@@ -93,7 +95,7 @@ Each source exports six async functions on `globalThis`:
 - `getPopularManga(page)` / `getLatestManga(page)` / `searchManga(query, page)` → `Manga[]`
 - `getMangaDetails(url)` → `{ manga, chapters }` or `null`
 - `getChapterList(url)` → `Chapter[]`
-- `getPageList(url)` → `string[]` (image URLs, optionally with `#descrambler=…` fragments)
+- `getPageList(url)` → `string[]` (image URLs, optionally with a `#descrambler=…` or `#referer=…` fragment the host handles)
 
 ## License
 

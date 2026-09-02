@@ -148,3 +148,7 @@ vite.config.ts.timestamp-*
 *.key
 id_ed25519*
 /CLAUDE.md
+
+# macOS / tooling cruft
+.DS_Store
+.playwright-mcp/

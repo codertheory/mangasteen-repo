@@ -1,0 +1,8 @@
+[
+  { "name": "popular_page1", "function": "getPopularManga", "args": [1] },
+  { "name": "latest_page1", "function": "getLatestManga", "args": [1] },
+  { "name": "search_urabaito", "function": "searchManga", "args": ["ura baito", 1] },
+  { "name": "details_urabaito", "function": "getMangaDetails", "args": ["https://mangadex.org/title/4e53b437-5884-4aa8-9ee1-be1028cba03f"] },
+  { "name": "chapters_urabaito", "function": "getChapterList", "args": ["https://mangadex.org/title/4e53b437-5884-4aa8-9ee1-be1028cba03f"] },
+  { "name": "pages_urabaito", "function": "getPageList", "args": ["https://mangadex.org/chapter/30b09938-c60e-42aa-9bd5-3ae820bc4cdf"] }
+]

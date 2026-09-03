@@ -1,14 +1,14 @@
 {
-  "name": "Comizy (Beta)",
+  "name": "MangaBuddy (Beta)",
   "version": "1.0",
   "lang": "en",
-  "iconUrl": "https://comizy.io/static/sites/comizy/icons/favicon-32x32.png",
+  "iconUrl": "https://mangabuddy1.co.uk/assets/mangabuddy1couk/images/logo/mangabuddy.png",
   "apiVersion": 1,
   "hostAllowlist": [
-    "comizy.io",
-    ".comizy.io",
-    "cmzcdn.org",
-    ".cmzcdn.org"
+    "mangabuddy1.co.uk",
+    ".mangabuddy1.co.uk",
+    "love4awalk.xyz",
+    ".love4awalk.xyz"
   ],
   "capabilities": [],
   "nsfw": true,

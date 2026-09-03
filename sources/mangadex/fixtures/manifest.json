@@ -1,0 +1,8 @@
+[
+  { "url": "https://api.mangadex.org/manga?limit=20&offset=0&order%5BfollowedCount%5D=desc&includes%5B%5D=cover_art&contentRating%5B%5D=safe&contentRating%5B%5D=suggestive&contentRating%5B%5D=erotica", "method": "GET", "response": "popular_p1.json" },
+  { "url": "https://api.mangadex.org/manga?limit=20&offset=0&order%5BlatestUploadedChapter%5D=desc&includes%5B%5D=cover_art&contentRating%5B%5D=safe&contentRating%5B%5D=suggestive&contentRating%5B%5D=erotica", "method": "GET", "response": "latest_p1.json" },
+  { "url": "https://api.mangadex.org/manga?limit=20&offset=0&order%5Brelevance%5D=desc&includes%5B%5D=cover_art&contentRating%5B%5D=safe&contentRating%5B%5D=suggestive&contentRating%5B%5D=erotica&title=ura%20baito", "method": "GET", "response": "search_urabaito.json" },
+  { "url": "https://api.mangadex.org/manga/4e53b437-5884-4aa8-9ee1-be1028cba03f?includes%5B%5D=cover_art&includes%5B%5D=author&includes%5B%5D=artist", "method": "GET", "response": "details_urabaito.json" },
+  { "url": "https://api.mangadex.org/manga/4e53b437-5884-4aa8-9ee1-be1028cba03f/feed?limit=500&offset=0&translatedLanguage%5B%5D=en&order%5Bvolume%5D=desc&order%5Bchapter%5D=desc&contentRating%5B%5D=safe&contentRating%5B%5D=suggestive&contentRating%5B%5D=erotica", "method": "GET", "response": "feed_urabaito.json" },
+  { "url": "https://api.mangadex.org/at-home/server/30b09938-c60e-42aa-9bd5-3ae820bc4cdf?forcePort443=true", "method": "GET", "response": "athome_urabaito.json" }
+]

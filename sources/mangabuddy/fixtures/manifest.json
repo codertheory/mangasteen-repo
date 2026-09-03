@@ -1,0 +1,8 @@
+[
+  { "url": "https://mangabuddy1.co.uk/home", "method": "GET", "response": "home.html" },
+  { "url": "https://mangabuddy1.co.uk/latest-updates?page=1", "method": "GET", "response": "latest_p1.html" },
+  { "url": "https://mangabuddy1.co.uk/series?searchTerm=hero&page=1", "method": "GET", "response": "search_hero.html" },
+  { "url": "https://mangabuddy1.co.uk/series/anonymous-forum.ZDIWZA", "method": "GET", "response": "details_anonymous_forum.html" },
+  { "url": "https://mangabuddy1.co.uk/get-chapter-list?slug=anonymous-forum", "method": "GET", "response": "chapters_anonymous_forum.json" },
+  { "url": "https://mangabuddy1.co.uk/series/anonymous-forum.ZDIWZA/chapter-31", "method": "GET", "response": "pages_ch31.html" }
+]

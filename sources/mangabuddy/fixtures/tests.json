@@ -1,0 +1,8 @@
+[
+  { "name": "popular_page1", "function": "getPopularManga", "args": [1] },
+  { "name": "latest_page1", "function": "getLatestManga", "args": [1] },
+  { "name": "search_hero", "function": "searchManga", "args": ["hero", 1] },
+  { "name": "details_anonymous_forum", "function": "getMangaDetails", "args": ["https://mangabuddy1.co.uk/series/anonymous-forum.ZDIWZA"] },
+  { "name": "chapters_anonymous_forum", "function": "getChapterList", "args": ["https://mangabuddy1.co.uk/series/anonymous-forum.ZDIWZA"] },
+  { "name": "pages_anonymous_forum", "function": "getPageList", "args": ["https://mangabuddy1.co.uk/series/anonymous-forum.ZDIWZA/chapter-31"] }
+]

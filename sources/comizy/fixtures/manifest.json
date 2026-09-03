@@ -1,8 +1,0 @@
-[
-  { "url": "https://api.comizy.io/titles/search?sort=popular&page=1&limit=24", "method": "GET", "response": "popular_p1.json" },
-  { "url": "https://api.comizy.io/titles/search?page=1&limit=24", "method": "GET", "response": "latest_p1.json" },
-  { "url": "https://api.comizy.io/titles/search?q=behind&page=1&limit=24", "method": "GET", "response": "search_behind.json" },
-  { "url": "https://api.comizy.io/titles/by-slug/behind-the-stage?include=details", "method": "GET", "response": "details_bts.json" },
-  { "url": "https://api.comizy.io/titles/Y5ldqx5l/chapters?page=1&limit=500", "method": "GET", "response": "chapters_bts.json" },
-  { "url": "https://comizy.io/behind-the-stage/chapter-44", "method": "GET", "response": "reader_bts_ch44.html" }
-]

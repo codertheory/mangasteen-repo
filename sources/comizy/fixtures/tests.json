@@ -1,8 +1,0 @@
-[
-  { "name": "popular_page1", "function": "getPopularManga", "args": [1] },
-  { "name": "latest_page1", "function": "getLatestManga", "args": [1] },
-  { "name": "search_behind", "function": "searchManga", "args": ["behind", 1] },
-  { "name": "details_bts", "function": "getMangaDetails", "args": ["https://comizy.io/behind-the-stage"] },
-  { "name": "chapters_bts", "function": "getChapterList", "args": ["https://comizy.io/behind-the-stage"] },
-  { "name": "pages_bts", "function": "getPageList", "args": ["https://comizy.io/behind-the-stage/chapter-44"] }
-]

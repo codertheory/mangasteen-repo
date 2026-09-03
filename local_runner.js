@@ -4,14 +4,18 @@ const nodeCrypto = require('node:crypto');
 const fs = require('fs');
 const path = require('path');
 
-// CLI: node local_runner.js [sourceName] [testName] [--fixtures]
-//   sourceName — folder under sources/ (default: mangaKatana)
-//   testName   — optional; runs just this entry from fixtures/tests.json
+// CLI: node local_runner.js [sourceName] [testName] [--fixtures] [--update-golden]
+//   sourceName      — folder under sources/ (default: mangaKatana)
+//   testName        — optional; runs just this entry from fixtures/tests.json
+//   --update-golden — write each test's result to expected/<name>.json instead of
+//                     comparing. Pair with --fixtures so goldens capture the
+//                     deterministic offline replay, not a live snapshot.
 const positional = process.argv.slice(2).filter(a => !a.startsWith('--'));
 const flags = new Set(process.argv.slice(2).filter(a => a.startsWith('--')));
 const SOURCE = positional[0] || 'mangaKatana';
 const TEST_FILTER = positional[1] || '';
 const OFFLINE = flags.has('--fixtures');
+const UPDATE_GOLDEN = flags.has('--update-golden');
 const FIXTURES_DIR = path.join(__dirname, 'sources', SOURCE, 'fixtures');
 
 // Load the source's extension.json so we can mirror the host's hostAllowlist firewall
@@ -269,6 +273,12 @@ function summarize(name, result) {
 
 function goldenCompare(name, result) {
     const goldenPath = path.join(FIXTURES_DIR, 'expected', `${name}.json`);
+    if (UPDATE_GOLDEN) {
+        fs.mkdirSync(path.dirname(goldenPath), { recursive: true });
+        fs.writeFileSync(goldenPath, JSON.stringify(result, null, 2) + '\n');
+        console.log(`  golden: WROTE expected/${name}.json`);
+        return null;
+    }
     if (!fs.existsSync(goldenPath)) return null;
     const expected = JSON.parse(fs.readFileSync(goldenPath, 'utf8'));
     const actual = JSON.parse(JSON.stringify(result));

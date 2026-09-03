@@ -8,8 +8,11 @@ A source extension repository for **[Mangasteen](https://github.com/codertheory/
 |---|---|---|---|
 | **MangaKatana** | EN | No | Full catalog, search, reader |
 | **Mangago** | EN | No | Full catalog, search, reader — uses client-side image descrambling |
-| **Comizy** | EN | Yes | Full catalog, search, reader — JSON API; hotlink-protected page images need app **3.2.3+**. Formerly MangaBuddy |
 | **Weeb Central** | EN | No | Full catalog, search, reader |
+| **MangaDex** | EN | Yes | Full catalog, search, reader — official public API |
+| **MangaBuddy** | EN | Yes | Full catalog, search, reader — popular is homepage-ranked (single page) |
+
+> **Removed:** the former **Comizy** source (ex-MangaBuddy backend) was dropped — the site pivoted to mostly adult content after squatting the MangaBuddy domain swap.
 
 All sources are Ed25519-signed against [`publickey.pem`](./publickey.pem) at the repo root; the app verifies each source on every sync and rejects any `main.js` that's been tampered with.
 

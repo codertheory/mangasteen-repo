@@ -1,6 +1,7 @@
 [
   { "url": "https://weebcentral.com/search/data?sort=Popularity&order=Descending&official=Any&display_mode=Full+Display&limit=32&offset=0", "method": "GET", "response": "popular_p1.html" },
-  { "url": "https://weebcentral.com/latest-updates/1", "method": "GET", "response": "latest_p1.html" },
+  { "url": "https://weebcentral.com/search/data?sort=Latest+Updates&order=Descending&official=Any&display_mode=Full+Display&limit=32&offset=0", "method": "GET", "response": "latest_p1.html" },
+  { "url": "https://weebcentral.com/search/data?sort=Latest+Updates&order=Descending&official=Any&display_mode=Full+Display&limit=32&offset=0&excluded_tag=Adult&excluded_tag=Smut&excluded_tag=Hentai", "method": "GET", "response": "latest_p1_hide_adult.html" },
   { "url": "https://weebcentral.com/search/data?sort=Best+Match&order=Descending&official=Any&display_mode=Full+Display&limit=32&offset=0&text=naruto", "method": "GET", "response": "search_naruto.html" },
   { "url": "https://weebcentral.com/series/01J76XYC7KP5M48JAY8S4ZNDX5/Kanojo-Okarishimasu", "method": "GET", "response": "details_kanojo.html" },
   { "url": "https://weebcentral.com/series/01J76XYC7KP5M48JAY8S4ZNDX5/full-chapter-list", "method": "GET", "response": "chapters_kanojo.html" },

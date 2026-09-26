@@ -1,6 +1,6 @@
 /**
  * @name Weeb Central (Beta)
- * @version 1.0
+ * @version 1.1
  * @lang en
  * @iconUrl https://weebcentral.com/favicon.ico
  */
@@ -80,7 +80,37 @@ function titleFromAlt(alt) {
     return alt.replace(/\s+cover$/i, '').trim();
 }
 
-// Parse a "Full Display" card list (getPopularManga / searchManga share this layout).
+// Tags the site filters on that the host's Spicy Filter treats as adult (plus Hentai,
+// which the site tags separately). Excluded server-side when the host passes
+// `options.hideAdult`, so filtered pages still come back full.
+const ADULT_TAGS = ['Adult', 'Smut', 'Hentai'];
+
+// Every listing goes through /search/data in Full Display mode: it's the only layout
+// that carries each series' tags, which the host needs for the Spicy Filter.
+function searchDataUrl(sort, page, options) {
+    const p = page > 1 ? page : 1;
+    let url = BASE_URL + '/search/data?sort=' + sort + '&order=Descending&official=Any' +
+        '&display_mode=Full+Display&limit=32&offset=' + ((p - 1) * 32);
+    if (options && options.hideAdult) {
+        url += ADULT_TAGS.map(t => '&excluded_tag=' + encodeURIComponent(t)).join('');
+    }
+    return url;
+}
+
+// "Tag(s):" block → ["Action", "Adventure", …]. Each tag is its own <span>, with a
+// trailing comma on all but the last.
+function parseCardTags(itemHtml) {
+    const blocks = ksoupSelect(itemHtml, 'div.opacity-70');
+    for (const block of blocks) {
+        if (block.text.indexOf('Tag(s)') === -1) continue;
+        return ksoupSelect(block.outerHtml, 'span')
+            .map(s => s.text.replace(/,\s*$/, '').trim())
+            .filter(t => t.length > 0);
+    }
+    return [];
+}
+
+// Parse a "Full Display" card list (every listing shares this layout).
 function parseFullDisplayList(html) {
     const items = ksoupSelect(html, "article.bg-base-300");
     const results = [];
@@ -107,7 +137,7 @@ function parseFullDisplayList(html) {
             description: "",
             author: "",
             artist: "",
-            genres: []
+            genres: parseCardTags(item.outerHtml)
         });
     }
     return results;
@@ -116,12 +146,9 @@ function parseFullDisplayList(html) {
 /**
  * 1. Get Popular Manga
  */
-async function getPopularManga(page) {
+async function getPopularManga(page, options) {
     try {
-        const p = page > 1 ? page : 1;
-        const offset = (p - 1) * 32;
-        const url = BASE_URL + '/search/data?sort=Popularity&order=Descending&official=Any' +
-            '&display_mode=Full+Display&limit=32&offset=' + offset;
+        const url = searchDataUrl('Popularity', page, options);
         const html = (await httpGet(url, { headers: defaultHeaders() })).body;
         return parseFullDisplayList(html);
     } catch (error) {
@@ -132,41 +159,16 @@ async function getPopularManga(page) {
 
 /**
  * 2. Get Latest Manga
+ *
+ * Same series order as /latest-updates, but through /search/data so each card carries
+ * its tags. That layout has no per-card timestamp, so lastUpdate is filled in from the
+ * chapter list on the details page instead.
  */
-async function getLatestManga(page) {
+async function getLatestManga(page, options) {
     try {
-        const p = page > 1 ? page : 1;
-        const html = (await httpGet(BASE_URL + '/latest-updates/' + p, { headers: defaultHeaders() })).body;
-        const items = ksoupSelect(html, "article.bg-base-100");
-        const results = [];
-
-        for (const item of items) {
-            // The series (manga) link — NOT the sibling /chapters/ latest-chapter link.
-            const linkEl = ksoupSelect(item.outerHtml, 'a[href*="/series/"]')[0];
-            const imgEl = ksoupSelect(item.outerHtml, 'img[alt$="cover"]')[0]
-                || ksoupSelect(item.outerHtml, 'picture img')[0];
-            const dateEl = ksoupSelect(item.outerHtml, 'time')[0];
-            if (!linkEl) continue;
-
-            let title = imgEl ? titleFromAlt(imgEl.attr["alt"]) : "";
-            if (!title) {
-                const t = ksoupSelect(item.outerHtml, '.font-semibold')[0];
-                title = t ? t.text.trim() : "";
-            }
-
-            results.push({
-                title: title,
-                url: absolutize(linkEl.attr["href"]),
-                coverUrl: imgEl ? imgEl.attr["src"] : "",
-                status: "Unknown",
-                description: "",
-                author: "",
-                artist: "",
-                genres: [],
-                lastUpdate: dateEl ? parseIsoDate(dateEl.attr["datetime"]) : 0
-            });
-        }
-        return results;
+        const url = searchDataUrl('Latest+Updates', page, options);
+        const html = (await httpGet(url, { headers: defaultHeaders() })).body;
+        return parseFullDisplayList(html);
     } catch (error) {
         console.log("Error fetching latest manga: " + error);
         return [];
@@ -176,12 +178,9 @@ async function getLatestManga(page) {
 /**
  * 3. Search Manga
  */
-async function searchManga(query, page) {
+async function searchManga(query, page, options) {
     try {
-        const p = page > 1 ? page : 1;
-        const offset = (p - 1) * 32;
-        const url = BASE_URL + '/search/data?sort=Best+Match&order=Descending&official=Any' +
-            '&display_mode=Full+Display&limit=32&offset=' + offset;
+        const url = searchDataUrl('Best+Match', page, options);
         const html = (await httpGet(url, {
             headers: defaultHeaders(),
             params: { text: query }

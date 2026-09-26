@@ -1,6 +1,6 @@
 /**
  * @name Mangago (Beta)
- * @version 1.3
+ * @version 1.12
  * @lang en
  * @iconUrl https://www.mangago.me/favicon.ico
  */
@@ -69,13 +69,20 @@ function absolutize(href) {
     return href;
 }
 
+// `e=` is the site's own excluded-genres filter (comma-separated genre ids, as built by
+// its genre panel script). Listing cards carry no genres, so while the app's Spicy Filter
+// is on (`options.hideAdult`) adult titles are dropped server-side instead.
+function excludedGenres(options) {
+    return options && options.hideAdult ? 'Adult,Smut' : '';
+}
+
 /**
  * 1. Get Popular Manga (sorted by views)
  */
-async function getPopularManga(page) {
+async function getPopularManga(page, options) {
     try {
         const p = page > 0 ? page : 1;
-        const url = BASE_URL + '/genre/all/' + p + '/?f=1&o=1&sortby=view&e=';
+        const url = BASE_URL + '/genre/all/' + p + '/?f=1&o=1&sortby=view&e=' + excludedGenres(options);
         const html = (await httpGet(url, { headers: defaultHeaders() })).body;
         return parseMangaList(html);
     } catch (error) {
@@ -87,10 +94,10 @@ async function getPopularManga(page) {
 /**
  * 2. Get Latest Manga (sorted by update_date)
  */
-async function getLatestManga(page) {
+async function getLatestManga(page, options) {
     try {
         const p = page > 0 ? page : 1;
-        const url = BASE_URL + '/genre/all/' + p + '/?f=1&o=1&sortby=update_date&e=';
+        const url = BASE_URL + '/genre/all/' + p + '/?f=1&o=1&sortby=update_date&e=' + excludedGenres(options);
         const html = (await httpGet(url, { headers: defaultHeaders() })).body;
         return parseMangaList(html);
     } catch (error) {

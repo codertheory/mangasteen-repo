@@ -7,7 +7,14 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Fantasy",
+      "Shounen"
+    ]
   },
   {
     "title": "Naruto - The Seventh Hokage And The Scarlet Spring",
@@ -17,7 +24,13 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Comedy",
+      "Martial Arts",
+      "Shounen",
+      "Supernatural"
+    ]
   },
   {
     "title": "Naruto: Chibi Sasuke's Sharingan Legend",
@@ -27,7 +40,13 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Fantasy",
+      "Shounen"
+    ]
   },
   {
     "title": "Naruto (Color)",
@@ -37,7 +56,14 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Fantasy",
+      "Shounen"
+    ]
   },
   {
     "title": "Boruto - Naruto Next Generations",
@@ -47,7 +73,14 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Fantasy",
+      "Shounen"
+    ]
   },
   {
     "title": "Naruto: Konoha's Story - The Steam Ninja Scrolls: The Manga",
@@ -57,7 +90,14 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Fantasy",
+      "Shounen"
+    ]
   },
   {
     "title": "Naruto: Sasuke's Story - The Uchiha and the Heavenly Stardust: The Manga",
@@ -67,7 +107,13 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Drama",
+      "Fantasy",
+      "Shounen"
+    ]
   },
   {
     "title": "Renge to Naruto!",
@@ -77,6 +123,12 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Comedy",
+      "Ecchi",
+      "Romance",
+      "Seinen",
+      "Slice of Life"
+    ]
   }
 ]

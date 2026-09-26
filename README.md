@@ -95,7 +95,9 @@ Start from the [extension template](https://github.com/codertheory/Mangasteen-ex
 
 Each source exports six async functions on `globalThis`:
 
-- `getPopularManga(page)` / `getLatestManga(page)` / `searchManga(query, page)` → `Manga[]`
+- `getPopularManga(page, options)` / `getLatestManga(page, options)` / `searchManga(query, page, options)` → `Manga[]`
+  - `options.hideAdult` is `true` while the app's Spicy Filter is on. Use it to exclude adult titles server-side where the site allows it. Older app builds don't pass `options`, so treat it as optional.
+  - Fill `genres` on listing entries whenever the site shows tags there. The Spicy Filter only hides entries tagged `18+`, `Adult` or `Smut`, and untagged entries from `nsfw` sources get blurred covers while the filter is on.
 - `getMangaDetails(url)` → `{ manga, chapters }` or `null`
 - `getChapterList(url)` → `Chapter[]`
 - `getPageList(url)` → `string[]` (image URLs, optionally with a `#descrambler=…` or `#referer=…` fragment the host handles)

@@ -1,6 +1,6 @@
 /**
  * @name MangaDex (Beta)
- * @version 1.0
+ * @version 1.1
  * @lang en
  * @iconUrl https://mangadex.org/favicon.ico
  */
@@ -53,8 +53,13 @@ function parseIsoDate(s) {
     return t.toFixed(0);
 }
 
-function contentRatingQs() {
-    return CONTENT_RATINGS.map(r => '&contentRating%5B%5D=' + r).join('');
+// With `options.hideAdult` (the app's Spicy Filter is on) erotica is left out server-side,
+// so filtered pages still come back full instead of losing their "Adult" entries locally.
+function contentRatingQs(options) {
+    const ratings = options && options.hideAdult
+        ? CONTENT_RATINGS.filter(r => r !== 'erotica')
+        : CONTENT_RATINGS;
+    return ratings.map(r => '&contentRating%5B%5D=' + r).join('');
 }
 
 // title/description are {lang: value} maps and `en` is not guaranteed.
@@ -108,6 +113,9 @@ function mapManga(m) {
         const name = t && t.attributes && t.attributes.name && t.attributes.name.en;
         if (name) genres.push(name);
     }
+    // MangaDex has no "Adult" tag; the rating is a separate field. Surface erotica as "Adult"
+    // so the app's Spicy Filter (which matches 18+/Adult/Smut) can see it.
+    if (attributes.contentRating === 'erotica') genres.push('Adult');
 
     return {
         title: pickTitle(attributes),
@@ -122,13 +130,13 @@ function mapManga(m) {
     };
 }
 
-async function fetchMangaList(orderKey, page, titleQuery) {
+async function fetchMangaList(orderKey, page, titleQuery, options) {
     const p = page > 1 ? page : 1;
     const offset = (p - 1) * PAGE_LIMIT;
     let url = API_URL + '/manga?limit=' + PAGE_LIMIT + '&offset=' + offset +
         '&order%5B' + orderKey + '%5D=desc' +
         '&includes%5B%5D=cover_art' +
-        contentRatingQs();
+        contentRatingQs(options);
     if (titleQuery) url += '&title=' + encodeURIComponent(titleQuery);
 
     const res = await httpGet(url, { headers: defaultHeaders() });
@@ -150,9 +158,9 @@ function chapterIdFromUrl(url) {
 /**
  * 1. Get Popular Manga
  */
-async function getPopularManga(page) {
+async function getPopularManga(page, options) {
     try {
-        return await fetchMangaList('followedCount', page, null);
+        return await fetchMangaList('followedCount', page, null, options);
     } catch (error) {
         console.log("Error fetching popular manga: " + error);
         return [];
@@ -162,9 +170,9 @@ async function getPopularManga(page) {
 /**
  * 2. Get Latest Manga
  */
-async function getLatestManga(page) {
+async function getLatestManga(page, options) {
     try {
-        return await fetchMangaList('latestUploadedChapter', page, null);
+        return await fetchMangaList('latestUploadedChapter', page, null, options);
     } catch (error) {
         console.log("Error fetching latest manga: " + error);
         return [];
@@ -174,9 +182,9 @@ async function getLatestManga(page) {
 /**
  * 3. Search Manga
  */
-async function searchManga(query, page) {
+async function searchManga(query, page, options) {
     try {
-        return await fetchMangaList('relevance', page, query);
+        return await fetchMangaList('relevance', page, query, options);
     } catch (error) {
         console.log("Search error: " + error);
         return [];

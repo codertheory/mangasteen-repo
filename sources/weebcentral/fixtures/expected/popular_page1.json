@@ -7,7 +7,12 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Drama",
+      "Shounen",
+      "Sports"
+    ]
   },
   {
     "title": "One Piece",
@@ -17,7 +22,14 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Fantasy",
+      "Shounen"
+    ]
   },
   {
     "title": "The Mortifying Ordeal of Being Seen",
@@ -27,7 +39,13 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Comedy",
+      "Ecchi",
+      "Romance",
+      "School Life",
+      "Shounen"
+    ]
   },
   {
     "title": "Bleach (Color)",
@@ -37,7 +55,14 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Shounen",
+      "Supernatural"
+    ]
   },
   {
     "title": "Hunter x Hunter",
@@ -47,7 +72,17 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Fantasy",
+      "Martial Arts",
+      "Psychological",
+      "Shounen",
+      "Supernatural"
+    ]
   },
   {
     "title": "Kingdom",
@@ -57,7 +92,13 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Drama",
+      "Historical",
+      "Mature",
+      "Seinen"
+    ]
   },
   {
     "title": "Bleach",
@@ -67,7 +108,14 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Comedy",
+      "Drama",
+      "Martial Arts",
+      "Shounen",
+      "Supernatural"
+    ]
   },
   {
     "title": "The Regressed Mercenary Has a Plan",
@@ -77,7 +125,12 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Drama",
+      "Fantasy",
+      "Seinen"
+    ]
   },
   {
     "title": "Kagurabachi",
@@ -87,7 +140,13 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Drama",
+      "Mature",
+      "Shounen",
+      "Supernatural"
+    ]
   },
   {
     "title": "One Piece (Color)",
@@ -97,7 +156,15 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Fantasy",
+      "Shounen",
+      "Supernatural"
+    ]
   },
   {
     "title": "Tales of Demons and Gods",
@@ -107,7 +174,16 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Fantasy",
+      "Harem",
+      "Romance",
+      "Shounen"
+    ]
   },
   {
     "title": "Jujutsu Kaisen",
@@ -117,7 +193,14 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Drama",
+      "Horror",
+      "School Life",
+      "Shounen",
+      "Supernatural"
+    ]
   },
   {
     "title": "Berserk",
@@ -127,7 +210,16 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Horror",
+      "Mature",
+      "Seinen",
+      "Supernatural",
+      "Tragedy"
+    ]
   },
   {
     "title": "Gachiakuta",
@@ -137,7 +229,13 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Drama",
+      "Fantasy",
+      "Shounen",
+      "Supernatural"
+    ]
   },
   {
     "title": "Ore dake Fuguu Skill no Isekai Shoukan Hangyakuki ~Saijaku Skill \"Kyuushuu\" ga Subete wo Nomikomu made~",
@@ -147,7 +245,15 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Drama",
+      "Fantasy",
+      "Isekai",
+      "Mature",
+      "Seinen"
+    ]
   },
   {
     "title": "Bouryoku Banzai",
@@ -157,7 +263,14 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Drama",
+      "Ecchi",
+      "Martial Arts",
+      "Mature",
+      "Seinen"
+    ]
   },
   {
     "title": "Naruto",
@@ -167,7 +280,14 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Fantasy",
+      "Shounen"
+    ]
   },
   {
     "title": "Sakamoto Days",
@@ -177,7 +297,12 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Comedy",
+      "Shounen",
+      "Supernatural"
+    ]
   },
   {
     "title": "Rent-A-Girlfriend",
@@ -187,7 +312,15 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Comedy",
+      "Ecchi",
+      "Harem",
+      "Romance",
+      "School Life",
+      "Shounen",
+      "Slice of Life"
+    ]
   },
   {
     "title": "The Seven Deadly Sins - Four Knights of the Apocalypse",
@@ -197,7 +330,15 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Fantasy",
+      "Shounen",
+      "Supernatural"
+    ]
   },
   {
     "title": "Naruto (Color)",
@@ -207,7 +348,14 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Fantasy",
+      "Shounen"
+    ]
   },
   {
     "title": "Spy x Family",
@@ -217,7 +365,13 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Comedy",
+      "Drama",
+      "Shounen",
+      "Slice of Life"
+    ]
   },
   {
     "title": "The Exiled Heavy Knight Knows How to Game the System",
@@ -227,7 +381,14 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Drama",
+      "Fantasy",
+      "Isekai",
+      "Seinen"
+    ]
   },
   {
     "title": "Isekai Meikyuu de Harem o",
@@ -237,7 +398,17 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adult",
+      "Adventure",
+      "Comedy",
+      "Ecchi",
+      "Fantasy",
+      "Harem",
+      "Isekai",
+      "Shounen"
+    ]
   },
   {
     "title": "Hajime no Ippo",
@@ -247,7 +418,15 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Comedy",
+      "Drama",
+      "Martial Arts",
+      "Shounen",
+      "Slice of Life",
+      "Sports"
+    ]
   },
   {
     "title": "Chainsaw Man",
@@ -257,7 +436,15 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Comedy",
+      "Drama",
+      "Horror",
+      "Mature",
+      "Shounen",
+      "Supernatural"
+    ]
   },
   {
     "title": "Shangri-La Frontier",
@@ -267,7 +454,15 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Fantasy",
+      "Sci-fi",
+      "Shounen"
+    ]
   },
   {
     "title": "Absolute Sword Sense",
@@ -277,7 +472,18 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Harem",
+      "Historical",
+      "Martial Arts",
+      "Mature",
+      "Romance",
+      "Shounen",
+      "Supernatural"
+    ]
   },
   {
     "title": "Revenge of the Baskerville Bloodhound",
@@ -287,7 +493,16 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Drama",
+      "Fantasy",
+      "Harem",
+      "Romance",
+      "School Life",
+      "Shounen"
+    ]
   },
   {
     "title": "The God of High School",
@@ -297,7 +512,13 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Martial Arts",
+      "Shounen"
+    ]
   },
   {
     "title": "One-Punch Man",
@@ -307,7 +528,15 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Drama",
+      "Sci-fi",
+      "Seinen",
+      "Supernatural"
+    ]
   },
   {
     "title": "Zombie no Afureta Sekai Ore Dake ga Osowarenai",
@@ -317,6 +546,12 @@
     "description": "",
     "author": "",
     "artist": "",
-    "genres": []
+    "genres": [
+      "Action",
+      "Adventure",
+      "Drama",
+      "Seinen",
+      "Supernatural"
+    ]
   }
 ]

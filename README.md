@@ -97,8 +97,11 @@ Each source exports six async functions on `globalThis`:
 
 - `getPopularManga(page, options)` / `getLatestManga(page, options)` / `searchManga(query, page, options)` → `Manga[]`
   - `options.hideAdult` is `true` while the app's Spicy Filter is on. Use it to exclude adult titles server-side where the site allows it. Older app builds don't pass `options`, so treat it as optional.
-  - Fill `genres` on listing entries whenever the site shows tags there. The Spicy Filter only hides entries tagged `18+`, `Adult` or `Smut`, and untagged entries from `nsfw` sources get blurred covers while the filter is on.
+  - Fill `genres` on listing entries whenever the site shows tags there. The Spicy Filter only hides entries tagged `18+`, `Adult` or `Smut`. Untagged entries are shown as they are, unless the source opts in to blurring them (see `blurUntaggedCovers` below).
 - `getMangaDetails(url)` → `{ manga, chapters }` or `null`
+
+**Blurring untagged covers.** A source that is `"nsfw": true` and lists `"blurUntaggedCovers"` in its manifest `capabilities` gets the covers of untagged listing entries blurred while the Spicy Filter is on. Only use it for sources whose catalog is mostly adult and whose listings carry no tags. On a mixed source it blurs the whole catalog, which is why MangaBuddy and Mangago don't set it. Prefer filling `genres` or honouring `options.hideAdult` where the site allows it. Needs app 3.4.0 or later; older builds ignore it.
+
 - `getChapterList(url)` → `Chapter[]`
 - `getPageList(url)` → `string[]` (image URLs, optionally with a `#descrambler=…` or `#referer=…` fragment the host handles)
 

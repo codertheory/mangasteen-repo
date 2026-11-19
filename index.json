@@ -1,0 +1,62 @@
+{
+  "formatVersion": 1,
+  "sources": [
+    {
+      "path": "sources/mangaKatana",
+      "name": "MangaKatana (Beta)",
+      "version": "1.8",
+      "hash": "sha256-5d4f5455ec819c3d8306a163e446d309777e56b355bce4d5438eea46030fbe43",
+      "files": [
+        "extension.json",
+        "main.js",
+        "main.js.sig",
+        "mangakatana.png"
+      ]
+    },
+    {
+      "path": "sources/mangabuddy",
+      "name": "MangaBuddy (Beta)",
+      "version": "1.0",
+      "hash": "sha256-e58538bb542c1592e4d807c3bd3ad1eb43d6dc6615177187efb23776f75d4648",
+      "files": [
+        "extension.json",
+        "main.js",
+        "main.js.sig"
+      ]
+    },
+    {
+      "path": "sources/mangadex",
+      "name": "MangaDex (Beta)",
+      "version": "1.1",
+      "hash": "sha256-562f07c37e5897abe85679388172be0f2e3874907f55b4c30eb42fd917ef0cf9",
+      "files": [
+        "extension.json",
+        "main.js",
+        "main.js.sig"
+      ]
+    },
+    {
+      "path": "sources/mangago",
+      "name": "Mangago (Beta)",
+      "version": "1.12",
+      "hash": "sha256-3640bf7dc9731ce575fdada99bba705f29cb2707af040eb3f4ea638d23b6b5b9",
+      "files": [
+        "extension.json",
+        "main.js",
+        "main.js.sig",
+        "mangago.png"
+      ]
+    },
+    {
+      "path": "sources/weebcentral",
+      "name": "Weeb Central (Beta)",
+      "version": "1.1",
+      "hash": "sha256-64affaf29dc6d35e684f15026cb9bf6fbaefb1b5a1350cb4c812ec3b09a4bc46",
+      "files": [
+        "extension.json",
+        "main.js",
+        "main.js.sig"
+      ]
+    }
+  ]
+}

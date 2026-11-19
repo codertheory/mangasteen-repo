@@ -7,7 +7,8 @@
     "test": "node local_runner.js --fixtures",
     "local": "node local_runner.js",
     "build": "esbuild sources/mangaKatana/main.js --bundle --outfile=sources/mangaKatana/release.js --platform=browser --target=es2020 --format=cjs",
-    "sign": "bash scripts/sign-sources.sh"
+    "sign": "bash scripts/sign-sources.sh && npm run index",
+    "index": "node scripts/build-index.mjs"
   },
   "repository": {
     "type": "git",

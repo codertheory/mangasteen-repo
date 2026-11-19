@@ -11,7 +11,13 @@
         "main.js",
         "main.js.sig",
         "mangakatana.png"
-      ]
+      ],
+      "fileHashes": {
+        "extension.json": "b4056489b23a2802c40633d9671a64f44438c03f2a3d22dcda3f0db21f4a03da",
+        "main.js": "127518309873b6cfd7ff2cfa7abc440a55feef26b79f70aaffae2195329e6d3e",
+        "main.js.sig": "0e4cc183e3e916980cb9a31aee6d04635f2cf7729c097cd189161fdcaff7b791",
+        "mangakatana.png": "7f7f3f0f75fe7db0bf49c1355721689562e642028f96390108bcb17163036b4e"
+      }
     },
     {
       "path": "sources/mangabuddy",
@@ -22,7 +28,12 @@
         "extension.json",
         "main.js",
         "main.js.sig"
-      ]
+      ],
+      "fileHashes": {
+        "extension.json": "e836c6c9cc35e1cb45be19b761ae36d2eb3163ce7ef6f417c67901bffdd98538",
+        "main.js": "5a1958c3b5b51f0dedbf27505f523f0a1a28f0ae8f9ae9ff9f64c3e1fbc0e699",
+        "main.js.sig": "d7976c049c3730d6c1c2f141a9e5d81540d5c88e64970ec77400cbbe9df6f026"
+      }
     },
     {
       "path": "sources/mangadex",
@@ -33,7 +44,12 @@
         "extension.json",
         "main.js",
         "main.js.sig"
-      ]
+      ],
+      "fileHashes": {
+        "extension.json": "14b04e9a17796ec603e7788ec69a297877caff8c6b59151cb39809695efd390d",
+        "main.js": "9040c2372114ec533a2f1e9ed69e561e701bf97196423d827375beaccac07d05",
+        "main.js.sig": "1657671785b8d49bde42b03c136005c3eaf409a75f39c6073708c1d8dae988b9"
+      }
     },
     {
       "path": "sources/mangago",
@@ -45,7 +61,13 @@
         "main.js",
         "main.js.sig",
         "mangago.png"
-      ]
+      ],
+      "fileHashes": {
+        "extension.json": "e481748092c07cf2db08f1ea06f90edffe709012501971ee1e421786524dc786",
+        "main.js": "270c48dc6e703772e8f8a9d540c3b783e5f9b572cd4cf08429859aca17b0b0f1",
+        "main.js.sig": "71f4ab53c9ea3303195a994e8f63fe3a25dc9fb2a1e70f06fd2efae7fbfcb405",
+        "mangago.png": "3d138efcffa6abc7cdf505a138087a5214df73ea8feb1aaaef1c62328bbd7384"
+      }
     },
     {
       "path": "sources/weebcentral",
@@ -56,7 +78,12 @@
         "extension.json",
         "main.js",
         "main.js.sig"
-      ]
+      ],
+      "fileHashes": {
+        "extension.json": "db68931aec33948ebfc8aa3a8686215b8fb974bf39710509582f9a9701ebef66",
+        "main.js": "94551bdd428e5d7a49e40947f88a5e7f9c4337e232dc3efbc14cab8e8c4d074a",
+        "main.js.sig": "ecaee7444639bfdc9da6b3eaf4a88a8e12c1e680c1c698bb93813bcbb040a92f"
+      }
     }
   ]
 }
